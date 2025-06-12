@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductList from '../../components/product/ProductList/ProductList';
-import Navbar from '../../components/common/Navbar/Navbar';
 import { parseQueryString } from '../../utils/helpers';
 import './Products.css';
 
@@ -22,11 +21,8 @@ const Products = () => {
     const newPath = queryString ? `/products?${queryString}` : '/products';
     navigate(newPath, { replace: true });
   };
-
   return (
     <div className="products-page">
-      <Navbar />
-      
       <div className="products-container">
         <ProductList
           initialFilters={filters}

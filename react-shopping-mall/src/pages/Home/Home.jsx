@@ -6,18 +6,21 @@ import './Home.css';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);  const [activeTab, setActiveTab] = useState('베스트 상품');
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('베스트 상품');
+
   // 탭별 상품 데이터 
   const getTabProducts = () => {
     if (activeTab === 'WEEKLY BEST') {
       // WEEKLY BEST 탭에서는 삼성 상품들 위주로 표시
       return featuredProducts.filter(product => 
-        product.category === 'samsung' || product.brand === 'Samsung'
+        product.brand === 'Samsung'
       ).slice(0, 8);
     }
     // 기본 탭에서는 모든 상품 표시
     return featuredProducts.slice(0, 8);
   };
+
   // 추천 상품 데이터를 서비스에서 가져오기
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
@@ -36,18 +39,21 @@ const Home = () => {
     };
 
     fetchFeaturedProducts();
-  }, []);const formatPrice = (price) => {
+  }, []);
+
+  const formatPrice = (price) => {
     return new Intl.NumberFormat('ko-KR').format(price);
   };
 
   const categories = [
-    { id: 'iphone', name: '아이폰', icon: '🍎' },
-    { id: 'samsung', name: '갤럭시', icon: '📱' },
-    { id: 'pixel', name: 'Pixel', icon: '🎯' },
+    { id: 'smartphone', name: '스마트폰', icon: '📱' },
     { id: 'tablet', name: '태블릿', icon: '📟' },
+    { id: 'accessories', name: '액세서리', icon: '🎧' },
     { id: 'case', name: '폰 케이스', icon: '🛡️' },
-    { id: 'earphone', name: '무선 이어폰', icon: '🎧' },
-    { id: 'etc', name: 'etc.', icon: '📦' }  ];
+    { id: 'earphone', name: '무선 이어폰', icon: '🎵' },
+    { id: 'charger', name: '충전기', icon: '🔌' },
+    { id: 'etc', name: '기타', icon: '📦' }
+  ];
 
   if (isLoading) {
     return <Loading text="페이지를 불러오는 중..." />;
@@ -73,7 +79,9 @@ const Home = () => {
           <button className="next">▶</button>
           <button className="pause">▮▮</button>
         </div>
-      </section>      {/* 카테고리 아이콘 */}
+      </section>
+
+      {/* 카테고리 아이콘 */}
       <section className="categories">
         <ul>
           {categories.map((category) => (
@@ -85,7 +93,9 @@ const Home = () => {
             </li>
           ))}
         </ul>
-      </section>{/* 주간 베스트 상품 */}
+      </section>
+
+      {/* 주간 베스트 상품 */}
       <section className="weekly-best">
         <div className="tabs">
           <button 
@@ -101,7 +111,8 @@ const Home = () => {
             WEEKLY BEST
           </button>
         </div>
-          <div className="product-grid">
+        
+        <div className="product-grid">
           {getTabProducts().map((product) => (
             <div key={product.id} className="product-item">
               <Link to={`/products/${product.id}`}>
@@ -110,8 +121,8 @@ const Home = () => {
                 </div>
                 <h3>{product.name}</h3>
                 <div className="colors">
-                  {product.colors.map((color, index) => (
-                    <span key={index} className={`color-dot color-${color}`}></span>
+                  {product.colors && product.colors.map((color, index) => (
+                    <span key={index} className={`color-dot color-${color.toLowerCase().replace(/\s+/g, '-')}`}></span>
                   ))}
                 </div>
                 <div className="price">
@@ -128,7 +139,9 @@ const Home = () => {
           <span>1 / 2</span>
           <button>&gt;</button>
         </div>
-      </section>      {/* 하단 섹션 - 특집 & 리뷰 */}
+      </section>
+
+      {/* 하단 섹션 - 특집 & 리뷰 */}
       <section className="bottom-section">
         <div className="featured">
           <div className="info">
@@ -143,8 +156,8 @@ const Home = () => {
           <h2>대표 구매평</h2>
           <ul className="ratings">
             <li>상품 품질 <span>★★★★★</span></li>
-            <li>상품        <span>★★★★★</span></li>
-            <li>배송 시간   <span>★★★★★</span></li>
+            <li>상품 디자인 <span>★★★★★</span></li>
+            <li>배송 시간 <span>★★★★★</span></li>
           </ul>
           <div className="review-images">
             <div className="img-placeholder"></div>

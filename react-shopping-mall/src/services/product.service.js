@@ -340,10 +340,9 @@ const mockProducts = [
     image: '/asset/samsung.galaxy.s25.plus.black.png',
     images: [
       '/asset/samsung.galaxy.s25.plus.black.png',
-      '/asset/samsung.galaxy.s25.plus.silver.png',
-      '/asset/samsung.galaxy.s25.plus.blue.png'
+      '/asset/samsung.galaxy.s25.plus.silver.png',    '/asset/samsung.galaxy.s25.plus.blue.png'
     ],
-    category: 'samsung',
+    category: 'smartphone',
     subcategory: 'galaxy-s25',
     brand: 'Samsung',
     rating: 4.7,
@@ -388,9 +387,8 @@ const mockProducts = [
     images: [
       '/asset/samsung.galaxy.s25.black.png',
       '/asset/samsung.galaxy.s25.silver.png',
-      '/asset/samsung.galaxy.s25.yellow.png'
-    ],
-    category: 'samsung',
+      '/asset/samsung.galaxy.s25.yellow.png'    ],
+    category: 'smartphone',
     subcategory: 'galaxy-s25',
     brand: 'Samsung',
     rating: 4.6,
@@ -436,8 +434,7 @@ const mockProducts = [
       '/asset/samsung.galaxy.zflip6.mint.png',
       '/asset/samsung.galaxy.zflip6.silver.png',
       '/asset/samsung.galaxy.zflip6.yellow.png'
-    ],
-    category: 'samsung',
+    ],    category: 'smartphone',
     subcategory: 'galaxy-z',
     brand: 'Samsung',
     rating: 4.5,
@@ -717,12 +714,17 @@ const getMockProducts = async (params) => {
       product.salePrice < product.price
     );
   }
-  
-  return {
-    data: filteredProducts,
-    total: filteredProducts.length,
-    page: parseInt(params.page) || 1,
-    limit: parseInt(params.limit) || 12
+    return {
+    success: true,
+    data: {
+      products: filteredProducts,
+      pagination: {
+        currentPage: parseInt(params.page) || 1,
+        totalPages: Math.ceil(filteredProducts.length / (parseInt(params.limit) || 12)),
+        totalItems: filteredProducts.length,
+        itemsPerPage: parseInt(params.limit) || 12
+      }
+    }
   };
 };
 
@@ -731,10 +733,16 @@ const getMockProduct = async (productId) => {
   
   const product = mockProducts.find(p => p.id === parseInt(productId));
   if (!product) {
-    throw new Error('Product not found');
+    return {
+      success: false,
+      error: 'Product not found'
+    };
   }
   
-  return { data: product };
+  return { 
+    success: true,
+    data: product 
+  };
 };
 
 const getMockFeaturedProducts = async (limit = 8) => {
@@ -745,7 +753,10 @@ const getMockFeaturedProducts = async (limit = 8) => {
     .sort((a, b) => (b.rating * b.reviewCount) - (a.rating * a.reviewCount))
     .slice(0, limit);
     
-  return { data: featured };
+  return { 
+    success: true,
+    data: featured 
+  };
 };
 
 const getMockRelatedProducts = async (productId, limit = 4) => {
@@ -753,7 +764,10 @@ const getMockRelatedProducts = async (productId, limit = 4) => {
   
   const product = mockProducts.find(p => p.id === parseInt(productId));
   if (!product) {
-    return { data: [] };
+    return { 
+      success: true,
+      data: [] 
+    };
   }
   
   // 같은 카테고리의 다른 상품들을 관련 상품으로 반환
@@ -761,27 +775,24 @@ const getMockRelatedProducts = async (productId, limit = 4) => {
     .filter(p => p.id !== parseInt(productId) && p.category === product.category)
     .slice(0, limit);
     
-  return { data: related };
+  return { 
+    success: true,
+    data: related 
+  };
 };
 
 const getMockCategories = async () => {
   await new Promise(resolve => setTimeout(resolve, 200));
   
   return {
+    success: true,
     data: [
       {
-        id: 'iphone',
-        name: 'iPhone',
-        description: 'Apple iPhone 시리즈',
-        image: '/asset/category-iphone.png',
-        productCount: 4
-      },
-      {
-        id: 'samsung',
-        name: 'Samsung',
-        description: 'Samsung Galaxy 시리즈',
-        image: '/asset/category-samsung.png',
-        productCount: 4
+        id: 'smartphone',
+        name: '스마트폰',
+        description: 'iPhone 및 Samsung Galaxy 시리즈',
+        image: '/asset/category-smartphone.png',
+        productCount: 8
       },
       {
         id: 'tablet',
@@ -791,17 +802,10 @@ const getMockCategories = async () => {
         productCount: 4
       },
       {
-        id: 'case',
-        name: '케이스',
-        description: '스마트폰 케이스 및 액세서리',
-        image: '/asset/category-case.png',
-        productCount: 0
-      },
-      {
-        id: 'earphone',
-        name: '이어폰',
-        description: '무선 및 유선 이어폰',
-        image: '/asset/category-earphone.png',
+        id: 'accessories',
+        name: '액세서리',
+        description: '케이스, 이어폰 및 기타 액세서리',
+        image: '/asset/category-accessories.png',
         productCount: 0
       }
     ]
