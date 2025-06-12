@@ -1,3 +1,4 @@
+// ProductDetail Component - v10 최적화 완료
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FaStar, FaHeart, FaRegHeart, FaShoppingCart, FaShare, FaMinus, FaPlus, FaArrowLeft, FaTruck, FaUndo, FaShieldAlt } from 'react-icons/fa';
