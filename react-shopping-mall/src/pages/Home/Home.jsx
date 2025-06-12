@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/common/Loading/Loading';
+import ProductCard from '../../components/product/ProductCard/ProductCard';
 import { productService } from '../../services/product.service';
 import './Home.css';
 
@@ -189,28 +190,14 @@ const Home = () => {
             onClick={() => setActiveTab('WEEKLY BEST')}
           >
             WEEKLY BEST
-          </button>
-        </div>
-        
-        <div className="product-grid">
+          </button>        </div>
+          <div className="product-grid">
           {getTabProducts().map((product) => (
-            <div key={product.id} className="product-item">
-              <Link to={`/products/${product.id}`}>
-                <div className="product-img">
-                  <img src={product.image} alt={product.name} />
-                </div>
-                <h3>{product.name}</h3>
-                <div className="colors">
-                  {product.colors && product.colors.map((color, index) => (
-                    <span key={index} className={`color-dot color-${color.toLowerCase().replace(/\s+/g, '-')}`}></span>
-                  ))}
-                </div>
-                <div className="price">
-                  <del>{formatPrice(product.price)}원</del>
-                  <strong>{formatPrice(product.salePrice)}원</strong>
-                </div>
-              </Link>
-            </div>
+            <ProductCard
+              key={product.id}
+              product={product}
+              viewMode="large"
+            />
           ))}
         </div>
         

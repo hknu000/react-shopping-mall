@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaThLarge, FaList, FaFilter, FaSort } from 'react-icons/fa';
+import { FaThLarge, FaList, FaFilter, FaSort, FaExpand } from 'react-icons/fa';
 import ProductCard from '../ProductCard/ProductCard';
 import ProductFilter from '../ProductFilter/ProductFilter';
 import Loading from '../../common/Loading/Loading';
@@ -13,7 +13,7 @@ const ProductList = ({
   showSorting = true,
   showViewToggle = true 
 }) => {
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list', 'large'
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [sortBy, setSortBy] = useState('latest');
   
@@ -206,9 +206,7 @@ const ProductList = ({
             >
               <FaFilter /> 필터
             </button>
-          )}
-
-          {/* 뷰 모드 토글 */}
+          )}          {/* 뷰 모드 토글 */}
           {showViewToggle && (
             <div className="view-toggle">
               <button
@@ -224,6 +222,13 @@ const ProductList = ({
                 title="리스트 보기"
               >
                 <FaList />
+              </button>
+              <button
+                className={`view-btn ${viewMode === 'productList' ? 'active' : ''}`}
+                onClick={() => setViewMode('productList')}
+                title="대형 보기"
+              >
+                <FaExpand />
               </button>
             </div>
           )}
