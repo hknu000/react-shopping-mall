@@ -14,7 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px 5%;
+  padding: 20px 15%; /* 메인 컨텐츠와 동일한 마진 */
 }
 
 .footer-content .company {
@@ -79,6 +79,7 @@
   .footer-content {
     flex-direction: column;
     gap: 20px;
+    padding: 20px 10%; /* 태블릿에서는 10% */
   }
   
   .footer-content .company {
@@ -87,5 +88,11 @@
   
   .footer-nav {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    padding: 20px 5%; /* 모바일에서는 5% */
   }
 }
