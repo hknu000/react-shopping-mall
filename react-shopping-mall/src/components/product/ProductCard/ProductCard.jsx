@@ -193,7 +193,7 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
               </div>
             )}
             <img
-              src={imageError ? '/images/placeholder-product.jpg' : image}
+              src={imageError ? '/images/placeholder-product.svg' : image}
               alt={name}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
