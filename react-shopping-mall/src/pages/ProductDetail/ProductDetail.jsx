@@ -221,7 +221,7 @@ const ProductDetail = () => {
           <div className="product-images">
             <div className="main-image">
               <img 
-                src={product.images?.[selectedImage] || product.image} 
+                src={selectedVariant?.image || product.images?.[selectedImage] || product.image} 
                 alt={product.name}
                 onError={(e) => {
                   e.target.src = '/images/placeholder-product.svg';
@@ -300,9 +300,11 @@ const ProductDetail = () => {
             {((product.variants && product.variants.length > 0) || (product.colors && product.colors.length > 0)) && (
               <div className="product-variants">
                 <h4>옵션 선택</h4>
-                <div className="variants-container">                  {/* 저장용량 선택 */}
+                <div className="variants-container">
+                  
+                  {/* 저장용량 선택 */}
                   {product.variants && product.variants.length > 0 && (
-                    <div className="variant-group">
+                    <div className="variant-group storage-group">
                       <label className="variant-label">저장용량</label>
                       <div className="storage-options">
                         {[...new Set(product.variants.map(v => v.storage))].map((storage) => {
@@ -346,29 +348,22 @@ const ProductDetail = () => {
 
                   {/* 색상 선택 */}
                   {product.colors && product.colors.length > 0 && (
-                    <div className="variant-group">
+                    <div className="variant-group color-group">
                       <label className="variant-label">색상</label>
                       <div className="color-options">
-                        {product.colors.map((color, index) => {
+                        {product.colors.map((color) => {
                           const colorVariants = product.variants?.filter(v => v.color === color) || [];
                           const hasStock = colorVariants.length === 0 || colorVariants.some(v => v.inStock !== false);
-                          
+                          const baseVariant = colorVariants.find(v => v.storage === selectedStorage) || colorVariants[0];
+                          const variantImage = baseVariant?.image || product.image;
                           return (
                             <button
                               key={color}
-                              className={`color-option ${selectedColor === color ? 'active' : ''} ${!hasStock ? 'disabled' : ''}`}                              onClick={() => {
+                              className={`color-option ${selectedColor === color ? 'active' : ''} ${!hasStock ? 'disabled' : ''}`}
+                              onClick={() => {
                                 if (hasStock) {
                                   setSelectedColor(color);
-                                  setSelectedImage(index);
-                                  // 선택된 저장용량과 색상에 맞는 variant 찾기
-                                  if (product.variants && selectedStorage) {
-                                    const newVariant = product.variants.find(v => 
-                                      v.storage === selectedStorage && v.color === color
-                                    );
-                                    if (newVariant) {
-                                      setSelectedVariant(newVariant);
-                                    }
-                                  }
+                                  setSelectedVariant(baseVariant);
                                 }
                               }}
                               disabled={!hasStock}
@@ -377,7 +372,7 @@ const ProductDetail = () => {
                               <div 
                                 className="color-swatch"
                                 style={{ 
-                                  backgroundImage: `url(${product.images[index] || product.image})`,
+                                  backgroundImage: `url(${variantImage})`,
                                   backgroundSize: 'cover',
                                   backgroundPosition: 'center'
                                 }}
