@@ -35,26 +35,45 @@
   padding: 20px 5%;
 }
 
-.main-visual .banner {
-  background: #e0e0e0;
-  border: 1px solid #ccc;
+/* 배너 슬라이더 */
+.banner-slider {
+  position: relative;
+  height: 250px;
   border-radius: 8px;
   overflow: hidden;
-  height: 250px;
-  position: relative;
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.banner.active {
+  opacity: 1;
 }
 
 .banner-text {
   position: absolute;
   top: 20%;
   left: 10%;
-  color: #333;
+  color: #fff;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .banner-text h2 {
   font-size: 18px;
   text-transform: uppercase;
   margin: 0;
+  opacity: 0.9;
 }
 
 .banner-text h1 {
@@ -66,55 +85,101 @@
 .banner-text p {
   font-size: 16px;
   margin-bottom: 12px;
+  opacity: 0.95;
 }
 
 .banner-text .btn-shop {
-  background: #F2B816;
-  padding: 8px 16px;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 25px;
   color: #fff;
   text-decoration: none;
   display: inline-block;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .banner-text .btn-shop:hover {
-  background: #E5A905;
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .slider-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .slider-controls .prev,
 .slider-controls .next,
 .slider-controls .pause {
-  background: none;
-  border: none;
-  font-size: 16px;
+  background: rgba(242, 184, 22, 0.1);
+  border: 2px solid #F2B816;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
   cursor: pointer;
-  padding: 5px;
+  color: #F2B816;
+  transition: all 0.3s ease;
+}
+
+.slider-controls .prev:hover,
+.slider-controls .next:hover,
+.slider-controls .pause:hover {
+  background: #F2B816;
+  color: #fff;
+  transform: scale(1.1);
 }
 
 .slider-controls .progress {
   flex: 1;
+  max-width: 200px;
   background: #ddd;
-  height: 4px;
+  height: 6px;
   position: relative;
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .slider-controls .progress .bar {
   display: block;
-  width: 40%;
   height: 100%;
+  background: linear-gradient(90deg, #F2B816, #E5A905);
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+/* 슬라이드 인디케이터 */
+.slide-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(242, 184, 22, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
   background: #F2B816;
+  transform: scale(1.2);
 }
 
 /* 카테고리 */

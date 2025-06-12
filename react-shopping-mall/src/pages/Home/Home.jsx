@@ -8,6 +8,39 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('베스트 상품');
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // 배너 데이터
+  const banners = [
+    {
+      id: 1,
+      title: "SPECIAL SALES",
+      subtitle: "SUMMER OFFERS",
+      description: "UP TO 50% OFF",
+      buttonText: "SHOP NOW",
+      link: "/products",
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    },
+    {
+      id: 2,
+      title: "NEW ARRIVAL",
+      subtitle: "iPhone 16 Series",
+      description: "혁신적인 카메라 제어",
+      buttonText: "자세히 보기",
+      link: "/products?category=smartphone&brand=Apple",
+      background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+    },
+    {
+      id: 3,
+      title: "GALAXY AI",
+      subtitle: "Galaxy S25 Ultra",
+      description: "AI로 진화된 스마트폰",
+      buttonText: "구매하기",
+      link: "/products?category=smartphone&brand=Samsung",
+      background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+    }
+  ];
 
   // 탭별 상품 데이터 
   const getTabProducts = () => {
@@ -18,8 +51,31 @@ const Home = () => {
       ).slice(0, 8);
     }
     // 기본 탭에서는 모든 상품 표시
-    return featuredProducts.slice(0, 8);
+    return featuredProducts.slice(0, 8);  };
+
+  // 슬라이더 제어 함수들
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % banners.length);
   };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
+  };
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  // 자동 슬라이드 (3초마다)
+  useEffect(() => {
+    if (!isPlaying) return;
+    
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, currentSlide]);
 
   // 추천 상품 데이터를 서비스에서 가져오기
   useEffect(() => {
@@ -60,24 +116,48 @@ const Home = () => {
   }
 
   return (
-    <div className="home phone-due-style">
-      {/* 메인 비주얼 배너 */}
+    <div className="home phone-due-style">      {/* 메인 비주얼 배너 */}
       <section className="main-visual">
-        <div className="banner">
-          <div className="banner-text">
-            <h2>SPECIAL SALES</h2>
-            <h1>SUMMER OFFERS</h1>
-            <p>UP TO 50% OFF</p>
-            <Link to="/products" className="btn-shop">SHOP NOW</Link>
-          </div>
+        <div className="banner-slider">
+          {banners.map((banner, index) => (
+            <div 
+              key={banner.id}
+              className={`banner ${index === currentSlide ? 'active' : ''}`}
+              style={{ background: banner.background }}
+            >
+              <div className="banner-text">
+                <h2>{banner.title}</h2>
+                <h1>{banner.subtitle}</h1>
+                <p>{banner.description}</p>
+                <Link to={banner.link} className="btn-shop">{banner.buttonText}</Link>
+              </div>
+            </div>
+          ))}
         </div>
+        
         <div className="slider-controls">
-          <button className="prev">◀</button>
+          <button className="prev" onClick={prevSlide}>◀</button>
           <span className="progress">
-            <span className="bar"></span>
+            <span 
+              className="bar" 
+              style={{ width: `${((currentSlide + 1) / banners.length) * 100}%` }}
+            ></span>
           </span>
-          <button className="next">▶</button>
-          <button className="pause">▮▮</button>
+          <button className="next" onClick={nextSlide}>▶</button>
+          <button className="pause" onClick={togglePlay}>
+            {isPlaying ? '▮▮' : '▶'}
+          </button>
+        </div>
+        
+        {/* 슬라이드 인디케이터 */}
+        <div className="slide-indicators">
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              className={`indicator ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => setCurrentSlide(index)}
+            />
+          ))}
         </div>
       </section>
 
