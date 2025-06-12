@@ -7,7 +7,7 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1rem; /* 원래대로 수정 */
 }
 
 /* 브레드크럼 */
@@ -281,54 +281,145 @@
   font-weight: 600;
 }
 
-.variants-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* 옵션 선택 */
+.product-variants {
+  margin: 2rem 0;
 }
 
-.variant-btn {
+.product-variants h4 {
+  margin-bottom: 1.5rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.variants-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.variant-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.variant-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+/* 저장용량 선택 */
+.variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.variant-option {
+  position: relative;
   padding: 1rem;
   border: 2px solid var(--gray-300);
   border-radius: var(--border-radius);
   background-color: var(--white);
   cursor: pointer;
   transition: var(--transition);
-  text-align: left;
+  text-align: center;
 }
 
-.variant-btn:hover:not(.disabled) {
+.variant-option:hover:not(.disabled) {
   border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
 }
 
-.variant-btn.active {
+.variant-option.active {
   border-color: var(--primary-color);
-  background-color: rgba(0, 123, 255, 0.1);
+  background-color: rgba(0, 123, 255, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
 }
 
-.variant-btn.disabled {
+.variant-option.disabled {
   opacity: 0.5;
   cursor: not-allowed;
   background-color: var(--gray-100);
 }
 
+.variant-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .variant-name {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--dark-color);
+  font-size: 0.95rem;
 }
 
 .variant-price {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--primary-color);
+  font-size: 0.9rem;
 }
 
-.out-of-stock {
-  color: var(--danger-color);
-  font-size: 0.8rem;
+.out-of-stock-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: var(--danger-color);
+  color: var(--white);
+  font-size: 0.7rem;
   font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+}
+
+/* 색상 선택 */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.color-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 80px;
+}
+
+.color-option:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.color-option.active {
+  border-color: var(--primary-color);
+  background-color: rgba(0, 123, 255, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.color-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-300);
+  background-color: var(--gray-200);
+}
+
+.color-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--dark-color);
+  text-align: center;
 }
 
 /* 수량 선택 */
@@ -701,12 +792,31 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 0.5rem;
+    padding: 0 5%; /* 모바일에서는 10% 여백 */
   }
 
   .product-detail-content {
     padding: 1.5rem;
     margin-bottom: 2rem;
+  }
+
+  .variants-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .color-options {
+    gap: 0.75rem;
+  }
+
+  .color-option {
+    min-width: 70px;
+    padding: 0.5rem;
+  }
+
+  .color-swatch {
+    width: 35px;
+    height: 35px;
   }
 
   .breadcrumb {

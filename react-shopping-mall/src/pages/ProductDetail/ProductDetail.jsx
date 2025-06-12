@@ -14,10 +14,9 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { addToCart, isInCart, getItemQuantity } = useContext(CartContext);
-
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([]); // 리뷰 기능은 현재 구현되지 않음
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -41,19 +40,15 @@ const ProductDetail = () => {
         }
       } else {
         setError('상품을 찾을 수 없습니다.');
-      }
-
-      // 관련 상품 조회
+      }      // 관련 상품 조회
       const relatedResult = await productService.getRelatedProducts(id, 4);
       if (relatedResult.success) {
-        setRelatedProducts(relatedResult.data.products);
-      }
-
-      // 리뷰 조회
-      const reviewsResult = await productService.getProductReviews(id, { limit: 5 });
-      if (reviewsResult.success) {
-        setReviews(reviewsResult.data.reviews);
-      }
+        setRelatedProducts(relatedResult.data);
+      }      // 리뷰 조회 - 현재 구현되지 않음
+      // const reviewsResult = await productService.getProductReviews(id, { limit: 5 });
+      // if (reviewsResult.success) {
+      //   setReviews(reviewsResult.data.reviews);
+      // }
 
     } catch (error) {
       setError('상품 정보를 불러오는 중 오류가 발생했습니다.');
@@ -275,27 +270,60 @@ const ProductDetail = () => {
 
             <div className="product-description">
               <p>{product.description}</p>
-            </div>
-
-            {/* 옵션 선택 */}
+            </div>            {/* 옵션 선택 */}
             {product.variants && product.variants.length > 0 && (
               <div className="product-variants">
                 <h4>옵션 선택</h4>
-                <div className="variants-list">
-                  {product.variants.map((variant) => (
-                    <button
-                      key={variant.id}
-                      className={`variant-btn ${selectedVariant?.id === variant.id ? 'active' : ''} ${!variant.inStock ? 'disabled' : ''}`}
-                      onClick={() => variant.inStock && setSelectedVariant(variant)}
-                      disabled={!variant.inStock}
-                    >
-                      <span className="variant-name">{variant.name}</span>
-                      <span className="variant-price">
-                        {formatPrice(variant.salePrice || variant.price)}원
-                      </span>
-                      {!variant.inStock && <span className="out-of-stock">품절</span>}
-                    </button>
-                  ))}
+                <div className="variants-container">
+                  {/* 저장용량 선택 */}
+                  <div className="variant-group">
+                    <label className="variant-label">저장용량</label>
+                    <div className="variants-grid">
+                      {product.variants.map((variant) => (
+                        <button
+                          key={variant.id || `${variant.storage}-${variant.price}`}
+                          className={`variant-option ${selectedVariant?.storage === variant.storage ? 'active' : ''} ${!variant.inStock ? 'disabled' : ''}`}
+                          onClick={() => variant.inStock && setSelectedVariant(variant)}
+                          disabled={!variant.inStock}
+                        >
+                          <div className="variant-content">
+                            <span className="variant-name">{variant.storage || variant.name}</span>
+                            <span className="variant-price">
+                              +{formatPrice((variant.salePrice || variant.price) - product.price)}원
+                            </span>
+                          </div>
+                          {!variant.inStock && <span className="out-of-stock-badge">품절</span>}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 색상 선택 */}
+                  {product.colors && product.colors.length > 0 && (
+                    <div className="variant-group">
+                      <label className="variant-label">색상</label>
+                      <div className="color-options">
+                        {product.colors.map((color, index) => (
+                          <button
+                            key={color}
+                            className={`color-option ${selectedImage === index ? 'active' : ''}`}
+                            onClick={() => setSelectedImage(index)}
+                            title={color}
+                          >
+                            <div 
+                              className="color-swatch"
+                              style={{ 
+                                backgroundImage: `url(${product.images[index] || product.image})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                              }}
+                            />
+                            <span className="color-name">{color}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -539,57 +567,11 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-            )}
-
-            {activeTab === 'reviews' && (
+            )}            {activeTab === 'reviews' && (
               <div className="reviews-content">
-                {reviews.length > 0 ? (
-                  <div className="reviews-list">
-                    {reviews.map((review) => (
-                      <div key={review.id} className="review-item">
-                        <div className="review-header">
-                          <div className="reviewer-info">
-                            <img 
-                              src={review.userAvatar || '/images/placeholder-avatar.jpg'} 
-                              alt={review.userName}
-                              className="reviewer-avatar"
-                            />
-                            <div>
-                              <strong>{review.userName}</strong>
-                              <div className="review-rating">
-                                {renderStars(review.rating)}
-                              </div>
-                            </div>
-                          </div>
-                          <span className="review-date">
-                            {new Date(review.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                        <div className="review-content">
-                          {review.title && <h4>{review.title}</h4>}
-                          <p>{review.content}</p>
-                          {review.images && review.images.length > 0 && (
-                            <div className="review-images">
-                              {review.images.map((image, index) => (
-                                <img key={index} src={image} alt={`리뷰 이미지 ${index + 1}`} />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                    
-                    <div className="reviews-footer">
-                      <Link to={`/products/${id}/reviews`} className="btn btn-outline-primary">
-                        모든 리뷰 보기
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="no-reviews">
-                    <p>아직 리뷰가 없습니다. 첫 번째 리뷰를 작성해보세요!</p>
-                  </div>
-                )}
+                <div className="no-reviews">
+                  <p>리뷰 기능은 현재 준비 중입니다. 곧 만나보실 수 있습니다!</p>
+                </div>
               </div>
             )}
           </div>

@@ -355,7 +355,7 @@
 .product-container-list {
   position: relative;
   width: 100%;
-  height: 900px;
+  height: 1800px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -371,13 +371,13 @@
 .product-image-section-list {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 1000px;
   background: white;
-  border-bottom: 3px solid black;
+  border-bottom: 5px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 25px;
+  padding: 50px;
 }
 
 .product-main-image-list {

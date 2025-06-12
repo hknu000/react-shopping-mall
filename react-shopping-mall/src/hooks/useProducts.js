@@ -11,7 +11,6 @@ export const useProducts = (filters = {}) => {
     totalItems: 0,
     itemsPerPage: 12
   });
-
   const fetchProducts = useCallback(async (searchFilters = {}) => {
     setLoading(true);
     setError(null);
@@ -21,7 +20,15 @@ export const useProducts = (filters = {}) => {
       
       if (response.success) {
         setProducts(response.data.products);
-        setPagination(response.data.pagination);
+        // productService에서 반환하는 구조에 맞게 수정
+        setPagination({
+          currentPage: response.data.currentPage,
+          totalPages: response.data.totalPages,
+          totalItems: response.data.totalCount,
+          itemsPerPage: searchFilters.limit || 8,
+          hasNextPage: response.data.hasNextPage,
+          hasPrevPage: response.data.hasPrevPage
+        });
       } else {
         throw new Error(response.error || '상품을 불러오는데 실패했습니다.');
       }
@@ -85,19 +92,5 @@ export const useProducts = (filters = {}) => {
     changePage,
     changeSort,
     refetch: () => fetchProducts(filters)
-  };
-};
-
-// Mock 데이터 생성 함수
-const generateMockProducts = (filters) => {
-  // 이제 productService에서 처리하므로 이 함수는 사용하지 않음
-  return {
-    products: [],
-    pagination: {
-      currentPage: 1,
-      totalPages: 1,
-      totalItems: 0,
-      itemsPerPage: 12
-    }
   };
 };

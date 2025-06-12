@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/common/Loading/Loading';
 import ProductCard from '../../components/product/ProductCard/ProductCard';
+import ProductCardLarge from '../../components/product/ProductCard/ProductCardLarge';
 import { productService } from '../../services/product.service';
 import './Home.css';
 
@@ -42,17 +43,17 @@ const Home = () => {
       background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     }
   ];
-
   // 탭별 상품 데이터 
   const getTabProducts = () => {
     if (activeTab === 'WEEKLY BEST') {
       // WEEKLY BEST 탭에서는 삼성 상품들 위주로 표시
       return featuredProducts.filter(product => 
         product.brand === 'Samsung'
-      ).slice(0, 8);
+      ).slice(0, 16);
     }
     // 기본 탭에서는 모든 상품 표시
-    return featuredProducts.slice(0, 8);  };
+    return featuredProducts.slice(0, 16);
+  };
 
   // 슬라이더 제어 함수들
   const nextSlide = () => {
@@ -84,7 +85,7 @@ const Home = () => {
       setIsLoading(true);
       
       try {
-        const response = await productService.getFeaturedProducts(8);
+        const response = await productService.getFeaturedProducts(16);
         if (response.success) {
           setFeaturedProducts(response.data);
         }
@@ -190,22 +191,13 @@ const Home = () => {
             onClick={() => setActiveTab('WEEKLY BEST')}
           >
             WEEKLY BEST
-          </button>        </div>
-          <div className="product-grid">
+          </button>        </div>        <div className="product-grid">
           {getTabProducts().map((product) => (
-            <ProductCard
+            <ProductCardLarge
               key={product.id}
               product={product}
-              viewMode="large"
             />
-          ))}
-        </div>
-        
-        <div className="pager">
-          <button disabled>&lt;</button>
-          <span>1 / 2</span>
-          <button>&gt;</button>
-        </div>
+          ))}        </div>
       </section>
 
       {/* 하단 섹션 - 특집 & 리뷰 */}

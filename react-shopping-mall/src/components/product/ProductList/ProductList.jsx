@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaThLarge, FaList, FaFilter, FaSort, FaExpand } from 'react-icons/fa';
+import { FaThLarge, FaList, FaFilter, FaSort, FaExpand, FaTh } from 'react-icons/fa';
 import ProductCard from '../ProductCard/ProductCard';
+import ProductCardCategory from '../ProductCard/ProductCardCategory';
 import ProductFilter from '../ProductFilter/ProductFilter';
 import Loading from '../../common/Loading/Loading';
 import { useProducts } from '../../../hooks/useProducts';
@@ -13,7 +14,7 @@ const ProductList = ({
   showSorting = true,
   showViewToggle = true 
 }) => {
-  const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list', 'large'
+  const [viewMode, setViewMode] = useState('category'); // 'grid', 'list', 'large', 'category'
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [sortBy, setSortBy] = useState('latest');
   
@@ -224,6 +225,13 @@ const ProductList = ({
                 <FaList />
               </button>
               <button
+                className={`view-btn ${viewMode === 'category' ? 'active' : ''}`}
+                onClick={() => setViewMode('category')}
+                title="카테고리 보기"
+              >
+                <FaTh />
+              </button>
+              <button
                 className={`view-btn ${viewMode === 'productList' ? 'active' : ''}`}
                 onClick={() => setViewMode('productList')}
                 title="대형 보기"
@@ -240,15 +248,21 @@ const ProductList = ({
         <div className="no-products">
           <p>조건에 맞는 상품이 없습니다.</p>
         </div>
-      ) : (
-        <>
+      ) : (        <>
           <div className={`product-grid ${viewMode}-view`}>
             {products.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                viewMode={viewMode}
-              />
+              viewMode === 'category' ? (
+                <ProductCardCategory
+                  key={product.id}
+                  product={product}
+                />
+              ) : (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  viewMode={viewMode}
+                />
+              )
             ))}
           </div>
 

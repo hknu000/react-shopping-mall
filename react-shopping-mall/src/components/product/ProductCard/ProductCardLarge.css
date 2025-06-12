@@ -1,0 +1,182 @@
+/* 원본 크기 기반 대형 상품 카드 */
+.product-item-large {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-large-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 원본 1000x1600 크기 컨테이너 */
+.product-container-original {
+  position: relative;
+  width: 1000px;
+  height: 1600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.product-container-original:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* 상품 이미지 섹션 - 원본 크기 */
+.product-image-section-original {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  left: 0px;
+  top: 0px;
+  background: white;
+  border-bottom: 5px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-main-image-original {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  left: 50px;
+  top: 50px;
+  object-fit: contain;
+}
+
+/* 상품 정보 섹션 */
+.product-info-section-original {
+  position: absolute;
+  left: 60px;
+  top: 1050px;
+  width: 880px;
+  height: 550px;
+}
+
+.product-title-original {
+  position: absolute;
+  width: 800px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: black;
+  font-size: 70px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  word-wrap: break-word;
+  line-height: 1;
+}
+
+/* 색상 옵션 */
+.color-options-original {
+  position: absolute;
+  top: 130px;
+  left: 0px;
+  display: flex;
+  gap: 40px;
+}
+
+.color-circle-original {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.color-circle-original:hover {
+  transform: scale(1.1);
+}
+
+.color-circle-original.white-border {
+  border: 5px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 저장용량 옵션 */
+.storage-options-original {
+  position: absolute;
+  top: 230px;
+  left: 0px;
+  display: flex;
+  gap: 20px;
+}
+
+.storage-option-original {
+  position: relative;
+  width: 160px;
+  height: 60px;
+  border-radius: 30px;
+  border: 4px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: black;
+  font-size: 32px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.storage-option-original:hover {
+  background: black;
+  color: white;
+}
+
+/* 가격 섹션 */
+.price-section-original {
+  position: absolute;
+  top: 350px;
+  left: 0px;
+  width: 880px;
+}
+
+.original-price-original {
+  position: absolute;
+  width: 840px;
+  height: 60px;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #A8A8A8;
+  font-size: 48px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+}
+
+.price-line-through {
+  text-decoration: line-through;
+  margin-left: 10px;
+}
+
+.sale-price-original {
+  position: absolute;
+  width: 840px;
+  height: 100px;
+  top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 64px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+}
+
+.discount-label-original {
+  color: #FF0000;
+  margin-right: 10px;
+}
+
+.price-amount-original {
+  color: black;
+}
