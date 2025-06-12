@@ -12,7 +12,7 @@
 }
 
 /* 원본 1000x1600 크기 컨테이너 */
-.product-container-original {
+.product-item-large .product-container {
   position: relative;
   width: 1000px;
   height: 1600px;
@@ -22,12 +22,12 @@
   transition: box-shadow 0.3s ease;
 }
 
-.product-container-original:hover {
+.product-item-large .product-container:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* 상품 이미지 섹션 - 원본 크기 */
-.product-image-section-original {
+.product-item-large .product-image-section {
   position: absolute;
   width: 1000px;
   height: 1000px;
@@ -40,7 +40,7 @@
   justify-content: center;
 }
 
-.product-main-image-original {
+.product-item-large .product-main-image {
   position: absolute;
   width: 900px;
   height: 900px;
@@ -50,7 +50,7 @@
 }
 
 /* 상품 정보 섹션 */
-.product-info-section-original {
+.product-item-large .product-info-section {
   position: absolute;
   left: 60px;
   top: 1050px;
@@ -58,125 +58,128 @@
   height: 550px;
 }
 
-.product-title-original {
-  position: absolute;
-  width: 800px;
-  height: 100px;
-  left: 0px;
-  top: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: black;
-  font-size: 70px;
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  font-weight: 700;
-  word-wrap: break-word;
-  line-height: 1;
+.product-item-large .product-title {
+  position: absolute !important;
+  width: 800px !important;
+  height: 100px !important;
+  left: 0px !important;
+  top: 0px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  color: black !important;
+  font-size: 77px !important;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
+  font-weight: 700 !important;
+  word-wrap: break-word !important;
+  line-height: 1 !important;
+  text-align: left !important;
 }
 
 /* 색상 옵션 */
-.color-options-original {
-  position: absolute;
-  top: 130px;
-  left: 0px;
-  display: flex;
-  gap: 40px;
+.product-item-large .color-options {
+  position: absolute !important;
+  top: 130px !important;
+  left: 0px !important;
+  display: flex !important;
+  gap: 40px !important;
 }
 
-.color-circle-original {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.product-item-large .color-circle {
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
 }
 
-.color-circle-original:hover {
-  transform: scale(1.1);
+.product-item-large .color-circle:hover {
+  transform: scale(1.1) !important;
 }
 
-.color-circle-original.white-border {
+.product-item-large .color-circle.white-border {
   border: 5px solid rgba(0, 0, 0, 0.5) !important;
 }
 
 /* 저장용량 옵션 */
-.storage-options-original {
-  position: absolute;
-  top: 230px;
-  left: 0px;
-  display: flex;
-  gap: 20px;
+.product-item-large .storage-options {
+  position: absolute !important;
+  top: 230px !important;
+  left: 0px !important;
+  display: flex !important;
+  gap: 20px !important;
 }
 
-.storage-option-original {
-  position: relative;
-  width: 160px;
-  height: 60px;
-  border-radius: 30px;
-  border: 4px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  color: black;
-  font-size: 32px;
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.product-item-large .storage-option {
+  position: relative !important;
+  width: 160px !important;
+  height: 60px !important;
+  border-radius: 30px !important;
+  border: 4px solid black !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: white !important;
+  color: black !important;
+  font-size: 32px !important;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
 }
 
-.storage-option-original:hover {
-  background: black;
-  color: white;
+.product-item-large .storage-option:hover {
+  background: black !important;
+  color: white !important;
 }
 
 /* 가격 섹션 */
-.price-section-original {
-  position: absolute;
-  top: 350px;
-  left: 0px;
-  width: 880px;
+.product-item-large .price-section {
+  position: absolute !important;
+  top: 350px !important;
+  left: 0px !important;
+  width: 880px !important;
 }
 
-.original-price-original {
-  position: absolute;
-  width: 840px;
-  height: 60px;
-  top: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: #A8A8A8;
-  font-size: 48px;
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  font-weight: 500;
+.product-item-large .original-price {
+  position: absolute !important;
+  width: 840px !important;
+  height: 60px !important;
+  top: 0px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  color: #A8A8A8 !important;
+  font-size: 53px !important;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
+  font-weight: 500 !important;
 }
 
-.price-line-through {
-  text-decoration: line-through;
-  margin-left: 10px;
+.product-item-large .price-line-through {
+  text-decoration: line-through !important;
+  margin-left: 10px !important;
 }
 
-.sale-price-original {
-  position: absolute;
-  width: 840px;
-  height: 100px;
-  top: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 64px;
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  font-weight: 700;
+.product-item-large .sale-price {
+  position: absolute !important;
+  width: 840px !important;
+  height: 100px !important;
+  top: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
+  font-weight: 700 !important;
 }
 
-.discount-label-original {
-  color: #FF0000;
-  margin-right: 10px;
+.product-item-large .discount-label {
+  color: #FF0000 !important;
+  font-size: 70px !important;
+  margin-right: 15px !important;
 }
 
-.price-amount-original {
-  color: black;
+.product-item-large .price-amount {
+  color: black !important;
+  font-size: 70px !important;
 }

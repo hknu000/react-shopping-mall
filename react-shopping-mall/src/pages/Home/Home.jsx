@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/common/Loading/Loading';
-import ProductCard from '../../components/product/ProductCard/ProductCard';
 import ProductCardLarge from '../../components/product/ProductCard/ProductCardLarge';
 import { productService } from '../../services/product.service';
 import './Home.css';
@@ -12,6 +11,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('베스트 상품');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // 배너 데이터
   const banners = [
@@ -42,23 +42,38 @@ const Home = () => {
       link: "/products?category=smartphone&brand=Samsung",
       background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     }
-  ];
-  // 탭별 상품 데이터 
+  ];  // 탭별 상품 데이터 
   const getTabProducts = () => {
+    // 화면 크기에 따른 상품 개수 결정
+    const getMaxProducts = () => {
+      if (windowWidth <= 600) return 4; // 2열 2줄
+      if (windowWidth <= 900) return 4; // 2열 2줄  
+      if (windowWidth <= 1200) return 6; // 3열 2줄
+      return 8; // 4열 2줄
+    };
+    
+    const maxProducts = getMaxProducts();
+    console.log('Window width:', windowWidth, 'Max products:', maxProducts);
+    
+    let filteredProducts;
     if (activeTab === 'WEEKLY BEST') {
       // WEEKLY BEST 탭에서는 삼성 상품들 위주로 표시
-      return featuredProducts.filter(product => 
+      filteredProducts = featuredProducts.filter(product => 
         product.brand === 'Samsung'
-      ).slice(0, 16);
+      );
+    } else {
+      // 기본 탭에서는 모든 상품 표시
+      filteredProducts = featuredProducts;
     }
-    // 기본 탭에서는 모든 상품 표시
-    return featuredProducts.slice(0, 16);
+    
+    const result = filteredProducts.slice(0, maxProducts);
+    console.log('Filtered products count:', result.length);
+    return result;
   };
-
   // 슬라이더 제어 함수들
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % banners.length);
-  };
+  }, [banners.length]);
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
@@ -77,8 +92,7 @@ const Home = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isPlaying, currentSlide]);
-
+  }, [isPlaying, nextSlide]);
   // 추천 상품 데이터를 서비스에서 가져오기
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
@@ -99,9 +113,13 @@ const Home = () => {
     fetchFeaturedProducts();
   }, []);
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('ko-KR').format(price);
-  };
+  // 윈도우 리사이즈 감지
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const categories = [
     { id: 'smartphone', name: '스마트폰', icon: '📱' },
@@ -135,31 +153,34 @@ const Home = () => {
               </div>
             </div>
           ))}
-        </div>
-        
-        <div className="slider-controls">
-          <button className="prev" onClick={prevSlide}>◀</button>
+        </div>        <div className="slider-controls">
+          <button className="prev" onClick={prevSlide}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F2B816">
+              <path d="M362-165 48-480l314-314 89 88-164 163h627v126H287l164 163-89 89Z"/>
+            </svg>
+          </button>
           <span className="progress">
             <span 
               className="bar" 
               style={{ width: `${((currentSlide + 1) / banners.length) * 100}%` }}
             ></span>
           </span>
-          <button className="next" onClick={nextSlide}>▶</button>
-          <button className="pause" onClick={togglePlay}>
-            {isPlaying ? '▮▮' : '▶'}
+          <button className="next" onClick={nextSlide}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F2B816">
+              <path d="m600-165-89-89 164-163H48v-126h627L511-706l89-88 314 314-314 315Z"/>
+            </svg>
           </button>
-        </div>
-        
-        {/* 슬라이드 인디케이터 */}
-        <div className="slide-indicators">
-          {banners.map((_, index) => (
-            <button
-              key={index}
-              className={`indicator ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(index)}
-            />
-          ))}
+          <button className="pause" onClick={togglePlay}>
+            {isPlaying ? (
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F2B816">
+                <path d="M206-206v-548h548v548H206Z"/>
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F2B816">
+                <path d="M286-139v-682l537 341-537 341Z"/>
+              </svg>
+            )}
+          </button>
         </div>
       </section>
 
