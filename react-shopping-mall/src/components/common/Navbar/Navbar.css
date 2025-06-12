@@ -1,0 +1,139 @@
+.navbar {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.navbar-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.navbar-list::-webkit-scrollbar {
+  display: none;
+}
+
+.navbar-item {
+  flex-shrink: 0;
+}
+
+.navbar-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: var(--gray-700);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  position: relative;
+}
+
+.navbar-link:hover {
+  color: var(--primary-color);
+  background-color: var(--gray-50);
+}
+
+.navbar-link.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  background-color: var(--gray-50);
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -1px;
+  left: 50%;
+  background-color: var(--primary-color);
+  transition: var(--transition);
+  transform: translateX(-50%);
+}
+
+.navbar-link:hover::after {
+  width: 80%;
+}
+
+.navbar-link.active::after {
+  width: 80%;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+
+  .navbar-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-container {
+    padding: 0 0.5rem;
+  }
+
+  .navbar-link {
+    padding: 0.75rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 카테고리별 색상 (선택사항) */
+.navbar-link[href*="electronics"]:hover,
+.navbar-link[href*="electronics"].active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+}
+
+.navbar-link[href*="fashion"]:hover,
+.navbar-link[href*="fashion"].active {
+  color: #e83e8c;
+  border-bottom-color: #e83e8c;
+}
+
+.navbar-link[href*="home"]:hover,
+.navbar-link[href*="home"].active {
+  color: #28a745;
+  border-bottom-color: #28a745;
+}
+
+.navbar-link[href*="beauty"]:hover,
+.navbar-link[href*="beauty"].active {
+  color: #fd7e14;
+  border-bottom-color: #fd7e14;
+}
+
+.navbar-link[href*="sports"]:hover,
+.navbar-link[href*="sports"].active {
+  color: #20c997;
+  border-bottom-color: #20c997;
+}
+
+.navbar-link[href*="books"]:hover,
+.navbar-link[href*="books"].active {
+  color: #6f42c1;
+  border-bottom-color: #6f42c1;
+}
+
+.navbar-link[href*="food"]:hover,
+.navbar-link[href*="food"].active {
+  color: #dc3545;
+  border-bottom-color: #dc3545;
+}

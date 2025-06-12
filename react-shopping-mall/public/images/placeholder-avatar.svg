@@ -1,0 +1,7 @@
+<!-- Placeholder SVG for user avatars -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#f8f9fa"/>
+  <circle cx="100" cy="80" r="30" fill="#dee2e6"/>
+  <path d="M70 140 Q100 120 130 140 L130 170 Q100 180 70 170 Z" fill="#dee2e6"/>
+  <text x="100" y="190" text-anchor="middle" fill="#6c757d" font-family="Arial, sans-serif" font-size="10">프로필</text>
+</svg>
