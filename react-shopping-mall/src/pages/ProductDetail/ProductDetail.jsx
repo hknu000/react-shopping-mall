@@ -19,8 +19,9 @@ const ProductDetail = () => {
   // const [reviews, setReviews] = useState([]); // 리뷰 기능은 현재 구현되지 않음
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const [selectedImage, setSelectedImage] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedStorage, setSelectedStorage] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -30,17 +31,22 @@ const ProductDetail = () => {
     setLoading(true);
     setError(null);
 
-    try {
-      // 상품 상세 정보 조회
+    try {      // 상품 상세 정보 조회
       const productResult = await productService.getProduct(id);
       if (productResult.success) {
         setProduct(productResult.data.product);
+        // 기본 옵션 설정
         if (productResult.data.product.variants?.length > 0) {
-          setSelectedVariant(productResult.data.product.variants[0]);
+          const firstVariant = productResult.data.product.variants[0];
+          setSelectedStorage(firstVariant.storage);
+          setSelectedVariant(firstVariant);
+        }
+        if (productResult.data.product.colors?.length > 0) {
+          setSelectedColor(productResult.data.product.colors[0]);
         }
       } else {
         setError('상품을 찾을 수 없습니다.');
-      }      // 관련 상품 조회
+      }// 관련 상품 조회
       const relatedResult = await productService.getRelatedProducts(id, 4);
       if (relatedResult.success) {
         setRelatedProducts(relatedResult.data);
@@ -57,7 +63,6 @@ const ProductDetail = () => {
       setLoading(false);
     }
   }, [id]); // id를 의존성으로 추가
-
   useEffect(() => {
     fetchProductData();
   }, [fetchProductData]); // fetchProductData를 의존성으로 추가
@@ -65,9 +70,30 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     if (!product.inStock) return;
 
+    // 선택된 옵션으로 variant 찾기
+    const variant = product.variants?.find(v => 
+      v.storage === selectedStorage && 
+      v.color === selectedColor
+    );
+
+    // 옵션 정보 텍스트 생성
+    const optionText = [];
+    if (selectedStorage) optionText.push(`저장용량: ${selectedStorage}`);
+    if (selectedColor) optionText.push(`색상: ${selectedColor}`);
+
     const cartItem = {
-      ...product,
-      selectedVariant,
+      id: product.id,
+      name: product.name,
+      brand: product.brand,
+      image: product.images?.[selectedImage] || product.image,
+      price: product.price,
+      salePrice: variant?.salePrice || product.salePrice,
+      selectedStorage,
+      selectedColor,
+      selectedVariant: variant,
+      optionText: optionText.join(', '), // 옵션 정보를 하나의 문자열로
+      inStock: variant?.inStock !== false,
+      category: product.category,
       quantity
     };
 
@@ -271,56 +297,96 @@ const ProductDetail = () => {
             <div className="product-description">
               <p>{product.description}</p>
             </div>            {/* 옵션 선택 */}
-            {product.variants && product.variants.length > 0 && (
+            {((product.variants && product.variants.length > 0) || (product.colors && product.colors.length > 0)) && (
               <div className="product-variants">
                 <h4>옵션 선택</h4>
-                <div className="variants-container">
-                  {/* 저장용량 선택 */}
-                  <div className="variant-group">
-                    <label className="variant-label">저장용량</label>
-                    <div className="variants-grid">
-                      {product.variants.map((variant) => (
-                        <button
-                          key={variant.id || `${variant.storage}-${variant.price}`}
-                          className={`variant-option ${selectedVariant?.storage === variant.storage ? 'active' : ''} ${!variant.inStock ? 'disabled' : ''}`}
-                          onClick={() => variant.inStock && setSelectedVariant(variant)}
-                          disabled={!variant.inStock}
-                        >
-                          <div className="variant-content">
-                            <span className="variant-name">{variant.storage || variant.name}</span>
-                            <span className="variant-price">
-                              +{formatPrice((variant.salePrice || variant.price) - product.price)}원
-                            </span>
-                          </div>
-                          {!variant.inStock && <span className="out-of-stock-badge">품절</span>}
-                        </button>
-                      ))}
+                <div className="variants-container">                  {/* 저장용량 선택 */}
+                  {product.variants && product.variants.length > 0 && (
+                    <div className="variant-group">
+                      <label className="variant-label">저장용량</label>
+                      <div className="storage-options">
+                        {[...new Set(product.variants.map(v => v.storage))].map((storage) => {
+                          const storageVariants = product.variants.filter(v => v.storage === storage);
+                          const hasStock = storageVariants.some(v => v.inStock !== false);
+                          const baseVariant = storageVariants.find(v => v.color === selectedColor) || storageVariants[0];
+                          const basePrice = baseVariant?.salePrice || baseVariant?.price || product.price;
+                          const priceDiff = basePrice - (product.salePrice || product.price);
+                          
+                          return (
+                            <button
+                              key={storage}
+                              className={`storage-option ${selectedStorage === storage ? 'active' : ''} ${!hasStock ? 'disabled' : ''}`}
+                              onClick={() => {
+                                if (hasStock) {
+                                  setSelectedStorage(storage);
+                                  // 선택된 저장용량과 색상에 맞는 variant 찾기
+                                  const newVariant = product.variants.find(v => 
+                                    v.storage === storage && v.color === selectedColor
+                                  ) || storageVariants[0];
+                                  setSelectedVariant(newVariant);
+                                }
+                              }}
+                              disabled={!hasStock}
+                            >
+                              <div className="storage-content">
+                                <span className="storage-name">{storage}</span>
+                                {priceDiff !== 0 && (
+                                  <span className="storage-price">
+                                    {priceDiff > 0 ? '+' : ''}{formatPrice(Math.abs(priceDiff))}원
+                                  </span>
+                                )}
+                              </div>
+                              {!hasStock && <span className="out-of-stock-badge">품절</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* 색상 선택 */}
                   {product.colors && product.colors.length > 0 && (
                     <div className="variant-group">
                       <label className="variant-label">색상</label>
                       <div className="color-options">
-                        {product.colors.map((color, index) => (
-                          <button
-                            key={color}
-                            className={`color-option ${selectedImage === index ? 'active' : ''}`}
-                            onClick={() => setSelectedImage(index)}
-                            title={color}
-                          >
-                            <div 
-                              className="color-swatch"
-                              style={{ 
-                                backgroundImage: `url(${product.images[index] || product.image})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
+                        {product.colors.map((color, index) => {
+                          const colorVariants = product.variants?.filter(v => v.color === color) || [];
+                          const hasStock = colorVariants.length === 0 || colorVariants.some(v => v.inStock !== false);
+                          
+                          return (
+                            <button
+                              key={color}
+                              className={`color-option ${selectedColor === color ? 'active' : ''} ${!hasStock ? 'disabled' : ''}`}                              onClick={() => {
+                                if (hasStock) {
+                                  setSelectedColor(color);
+                                  setSelectedImage(index);
+                                  // 선택된 저장용량과 색상에 맞는 variant 찾기
+                                  if (product.variants && selectedStorage) {
+                                    const newVariant = product.variants.find(v => 
+                                      v.storage === selectedStorage && v.color === color
+                                    );
+                                    if (newVariant) {
+                                      setSelectedVariant(newVariant);
+                                    }
+                                  }
+                                }
                               }}
-                            />
-                            <span className="color-name">{color}</span>
-                          </button>
-                        ))}
+                              disabled={!hasStock}
+                              title={color}
+                            >
+                              <div 
+                                className="color-swatch"
+                                style={{ 
+                                  backgroundImage: `url(${product.images[index] || product.image})`,
+                                  backgroundSize: 'cover',
+                                  backgroundPosition: 'center'
+                                }}
+                              />
+                              <span className="color-name">{color}</span>
+                              {!hasStock && <span className="color-out-of-stock">품절</span>}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   )}

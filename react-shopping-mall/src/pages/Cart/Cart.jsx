@@ -135,14 +135,29 @@ const Cart = () => {
                         e.target.src = '/images/placeholder-product.jpg';
                       }}
                     />
-                  </div>
-
-                  <div className="item-details">
+                  </div>                  <div className="item-details">
                     <Link to={`/products/${item.id}`} className="item-name">
                       {item.name}
                     </Link>
                     {item.brand && (
                       <p className="item-brand">{item.brand}</p>
+                    )}
+                    {/* 선택된 옵션 정보 표시 */}
+                    {(item.selectedStorage || item.selectedColor || item.optionText) && (
+                      <div className="item-options">
+                        {item.optionText ? (
+                          <p className="item-option">{item.optionText}</p>
+                        ) : (
+                          <>
+                            {item.selectedStorage && (
+                              <p className="item-option">저장용량: {item.selectedStorage}</p>
+                            )}
+                            {item.selectedColor && (
+                              <p className="item-option">색상: {item.selectedColor}</p>
+                            )}
+                          </>
+                        )}
+                      </div>
                     )}
                     {item.variant && (
                       <p className="item-variant">{item.variant}</p>
