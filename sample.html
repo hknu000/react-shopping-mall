@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phone Due Plus (Placeholder)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* 공통 초기화 */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Noto Sans KR',sans-serif; color:#333; background:#fafafa; }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+
+    /* placeholder 박스 스타일 */
+    .placeholder-box { background:#e0e0e0; border:1px solid #ccc; }
+    /* 아이콘·상품 이미지 자리 */
+    .icon-box, .product-img, .footer-banner, .main-visual .banner,
+    .featured, .review .img-placeholder { width:100%; }
+
+    /* HEADER */
+    .site-header { border-bottom:1px solid #ddd; background:#fff; }
+    .header-top { display:flex; align-items:center; padding:10px 5%; }
+    .logo { font-size:24px; font-weight:bold; color:#F2B816; line-height:1; }
+    .global-nav { flex:1; display:flex; justify-content:space-between; align-items:center; }
+    .global-nav ul { display:flex; gap:15px; }
+    .global-nav ul li a { font-size:14px; }
+    .search-cart { display:flex; align-items:center; gap:8px; }
+    .search-cart input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; }
+    .search-cart .icon { background:none; border:none; font-size:18px; cursor:pointer; }
+
+    /* MAIN NAV */
+    .main-nav { background:#fff; }
+    .main-nav ul { display:flex; justify-content:center; gap:30px; padding:10px 0; }
+    .main-nav ul li a { font-size:16px; font-weight:500; }
+
+    /* MAIN VISUAL */
+    .main-visual { position:relative; padding:20px 5%; }
+    .main-visual .banner { border-radius:8px; overflow:hidden; height:250px; }
+    .banner-text { position:absolute; top:20%; left:10%; color:#333; }
+    .banner-text h2 { font-size:18px; text-transform:uppercase; }
+    .banner-text h1 { font-size:36px; margin:8px 0; }
+    .banner-text p { font-size:16px; margin-bottom:12px; }
+    .banner-text .btn-shop { background:#23C39A; padding:8px 16px; border-radius:4px; color:#fff; }
+
+    .slider-controls { display:flex; align-items:center; gap:10px; margin-top:10px; }
+    .slider-controls .prev,
+    .slider-controls .next,
+    .slider-controls .pause { background:none; border:none; font-size:16px; cursor:pointer; }
+    .slider-controls .progress { flex:1; background:#ddd; height:4px; position:relative; border-radius:2px; overflow:hidden; }
+    .slider-controls .progress .bar { display:block; width:40%; height:100%; background:#23C39A; }
+
+    /* CATEGORIES */
+    .categories { padding:20px 5%; background:#fff; }
+    .categories ul { display:flex; justify-content:space-between; }
+    .categories li { text-align:center; font-size:14px; }
+    .categories li .icon-box { width:60px; height:60px; margin:0 auto 6px; }
+
+    /* WEEKLY BEST */
+    .weekly-best { padding:20px 5%; background:#fff; }
+    .weekly-best .tabs { display:flex; gap:10px; margin-bottom:15px; }
+    .weekly-best .tabs button { padding:8px 16px; border:none; background:#eee; cursor:pointer; font-weight:500; }
+    .weekly-best .tabs .active { background:#F2B816; color:#fff; }
+    .product-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+    .product-item { text-align:center; }
+    .product-item .product-img { height:160px; }
+    .product-item h3 { font-size:16px; margin:8px 0; }
+    .product-item .colors { display:flex; justify-content:center; gap:6px; margin-bottom:8px; }
+    .product-item .colors span { display:inline-block; width:12px; height:12px; border-radius:50%; background:#bbb; }
+    .product-item .price { font-size:14px; }
+    .product-item .price del { color:#999; margin-right:5px; }
+    .product-item .price strong { color:#333; }
+
+    .pager { display:flex; justify-content:center; align-items:center; gap:10px; margin-top:15px; }
+    .pager button { padding:4px 8px; border:1px solid #ccc; background:#fff; cursor:pointer; }
+    .pager span { font-size:14px; }
+
+    /* BOTTOM SECTION */
+    .bottom-section { display:flex; gap:20px; padding:20px 5%; background:#fff; }
+    .featured { flex:1; border:1px solid #ddd; border-radius:8px; position:relative; height:250px; }
+    .featured .info { position:absolute; top:10px; left:10px; }
+    .featured h2 { margin-bottom:12px; }
+    .review { flex:1; border:1px solid #ddd; border-radius:8px; padding:20px; }
+    .review h2 { margin-bottom:12px; }
+    .review .ratings li { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .review .review-images { display:flex; gap:10px; }
+    .review .img-placeholder { flex:1; height:80px; }
+
+    /* FOOTER */
+    .site-footer { background:#4F3F25; color:#fff; }
+    .footer-banner { height:80px; }
+    .footer-content { display:flex; justify-content:space-between; align-items:flex-start; padding:20px 5%; }
+    .footer-content .company { max-width:50%; line-height:1.4; }
+    .footer-content .social a { margin-right:10px; font-size:18px; color:#fff; }
+    .footer-nav { display:flex; gap:15px; margin-top:10px; }
+    .footer-nav a { font-size:14px; }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-top">
+      <div class="logo">PHONE<br>DUE</div>
+      <nav class="global-nav">
+        <ul>
+          <li><a href="#">Phone Due Plus</a></li>
+          <li><a href="#">고객지원</a></li>
+          <li><a href="#">Sign in</a></li>
+          <li><a href="#">마이페이지</a></li>
+        </ul>
+        <div class="search-cart">
+          <input type="text" placeholder="검색어를 입력하세요" />
+          <button class="icon search">🔍</button>
+          <button class="icon cart">🛒</button>
+          <button class="icon menu">☰</button>
+        </div>
+      </nav>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#">스마트폰</a></li>
+        <li><a href="#">태블릿</a></li>
+        <li><a href="#">액세서리</a></li>
+        <li><a href="#">이벤트</a></li>
+        <li><a href="#">기획전</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- MAIN VISUAL (placeholder box) -->
+  <section class="main-visual">
+    <div class="banner placeholder-box">
+      <div class="banner-text">
+        <h2>SPECIAL SALES</h2>
+        <h1>SUMMER OFFERS</h1>
+        <p>UP TO 50% OFF</p>
+        <a href="#" class="btn-shop">SHOP NOW</a>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="prev">◀</button>
+      <span class="progress"><span class="bar"></span></span>
+      <button class="next">▶</button>
+      <button class="pause">▮▮</button>
+    </div>
+  </section>
+
+  <!-- CATEGORY ICONS (placeholder squares) -->
+  <section class="categories">
+    <ul>
+      <li><div class="icon-box placeholder-box"></div><span>아이폰</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>갤럭시</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>Pixel</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>태블릿</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>폰 케이스</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>무선 이어폰</span></li>
+      <li><div class="icon-box placeholder-box"></div><span>etc.</span></li>
+    </ul>
+  </section>
+
+  <!-- WEEKLY BEST (product placeholders) -->
+  <section class="weekly-best">
+    <div class="tabs">
+      <button class="active">베스트 상품</button>
+      <button>WEEKLY BEST</button>
+    </div>
+    <div class="product-grid">
+      <!-- 8개 아이템 반복 -->
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16 프로 맥스</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,900,000원</del><strong>1,600,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16 프로</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,550,000원</del><strong>1,250,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,250,000원</del><strong>1,050,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16e</h3>
+        <div class="colors"><span></span></div>
+        <div class="price"><del>990,000원</del><strong>790,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16 프로 맥스</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,900,000원</del><strong>1,600,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16 프로</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,550,000원</del><strong>1,250,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16</h3>
+        <div class="colors"><span></span><span></span><span></span></div>
+        <div class="price"><del>1,250,000원</del><strong>1,050,000원</strong></div>
+      </div>
+      <div class="product-item">
+        <div class="product-img placeholder-box"></div>
+        <h3>아이폰 16e</h3>
+        <div class="colors"><span></span></div>
+        <div class="price"><del>990,000원</del><strong>790,000원</strong></div>
+      </div>
+    </div>
+    <div class="pager">
+      <button disabled>&lt;</button>
+      <span>1 / 2</span>
+      <button>&gt;</button>
+    </div>
+  </section>
+
+  <!-- FEATURED & REVIEW -->
+  <section class="bottom-section">
+    <div class="featured placeholder-box">
+      <div class="info">
+        <h2>Galaxy S25 Ultra</h2>
+        <p>한 단계 더 진화된 나만의 <strong>맞춤형 AI</strong></p>
+        <p>2억 화소 광각, 5천만 화소 초광각 AI로 진화된 카메라</p>
+        <p>슬림해진 디자인에 티타늄으로 견고해진 내구성</p>
+      </div>
+    </div>
+    <div class="review">
+      <h2>대표 구매평</h2>
+      <ul class="ratings">
+        <li>상품 품질 <span>★★★★★</span></li>
+        <li>상품        <span>★★★★★</span></li>
+        <li>배송 시간   <span>★★★★★</span></li>
+      </ul>
+      <div class="review-images">
+        <div class="img-placeholder placeholder-box"></div>
+        <div class="img-placeholder placeholder-box"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-banner placeholder-box"></div>
+    <div class="footer-content">
+      <div class="company">
+        <h3>PHONE DUE</h3>
+        <p>상호 : 폰듀플러스 | 대표 : 홍길동 | 사업자등록번호 : 123-45-67890</p>
+        <p>전화 : 000-0000-0000 | 이메일 : phonedue@hankyung.ac.kr</p>
+        <p>주소 : 경기도 성남시 분당구 정자동 327</p>
+        <small>Copyright (c) Hankyung National University. All Rights Reserved.</small>
+      </div>
+      <div class="social">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Naver</a>
+      </div>
+      <ul class="footer-nav">
+        <li><a href="#">SHOP</a></li>
+        <li><a href="#">REVIEW</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">COMMUNITY</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
