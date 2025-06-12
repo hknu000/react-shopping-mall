@@ -209,10 +209,10 @@
 .product-name {
   margin: 0;
   color: var(--dark-color);
-  font-size: 1.8rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  word-break: break-word;
+  max-width: calc(100% - 120px);
 }
 
 .product-actions-header {
@@ -325,17 +325,16 @@
   font-size: 1rem;
 }
 
-/* 옵션 선택 */
+/* 옵션 선택 - 레이아웃 안정화 */
 .product-variants {
   margin: 0;
   padding: 1rem 0;
   border-bottom: 1px solid var(--gray-200);
-  position: relative;
+  position: static;
   width: 100%;
   clear: both;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
+  display: block;
+  overflow: visible;
 }
 
 .product-variants h4 {
@@ -344,57 +343,75 @@
   font-weight: 600;
   font-size: 1.2rem;
   width: 100%;
-  position: relative;
-  z-index: 2;
+  position: static;
 }
 
 .variants-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  position: relative;
+  display: block;
+  position: static;
   width: 100%;
-  align-items: stretch;
-  z-index: 2;
+  overflow: visible;
 }
 
 .variant-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  position: relative;
+  display: block;
+  margin-bottom: 2rem;
+  position: static;
   width: 100%;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--gray-100);
-  z-index: 3;
-}
-
-.variant-group:last-child {
-  border-bottom: none;
+  overflow: visible;
 }
 
 .variant-label {
   font-size: 1rem;
   font-weight: 600;
   color: var(--dark-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   display: block;
-  position: relative;
-  z-index: 1;
   width: 100%;
   text-align: left;
+  position: static;
 }
 
-/* 저장용량 선택 */
-.storage-options {
+/* 저장용량 전용 스타일 */
+.storage-variant-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
-  position: relative;
   width: 100%;
-  z-index: 3;
-  margin: 0;
-  padding: 0;
+}
+
+/* 색상 전용 스타일 */
+.color-variant-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+/* 공통 품절 뱃지 */
+.out-of-stock-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: var(--danger-color);
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--border-radius-sm);
+  z-index: 1;
+}
+
+/* === 저장용량 옵션 스타일 === */
+.storage-options {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: static !important;
+  overflow: visible !important;
 }
 
 .storage-option {
@@ -406,6 +423,8 @@
   cursor: pointer;
   transition: var(--transition);
   text-align: left;
+  display: block;
+  overflow: visible;
 }
 
 .storage-option:hover:not(.disabled) {
@@ -443,30 +462,16 @@
   font-size: 0.85rem;
 }
 
-.out-of-stock-badge {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: var(--danger-color);
-  color: var(--white);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.2rem 0.4rem;
-  border-radius: var(--border-radius-sm);
-}
-
-/* 색상 선택 */
+/* === 색상 옵션 스타일 === */
 .color-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  align-items: start;
-  gap: 1rem;
-  position: relative;
-  width: 100%;
-  z-index: 3;
-  margin: 0;
-  padding: 0;
-  align-items: flex-start;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: static !important;
+  overflow: visible !important;
 }
 
 .color-option {
@@ -482,6 +487,7 @@
   transition: var(--transition);
   min-width: 80px;
   position: relative;
+  overflow: visible;
 }
 
 .color-option:hover {
@@ -526,6 +532,7 @@
   font-weight: 600;
   padding: 0.2rem 0.4rem;
   border-radius: var(--border-radius-sm);
+  z-index: 1;
 }
 
 /* 수량 선택 */
@@ -977,16 +984,14 @@
     margin-bottom: 0.75rem;
     display: block;
     width: 100%;
-  }
-
-  .storage-options {
-    position: relative;
-    width: 100%;
+  }  .storage-options {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
   }
 
   .color-options {
-    position: relative;
-    width: 100%;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.75rem !important;
   }
 
   .variants-grid {
@@ -1379,21 +1384,12 @@
   .current-price {
     font-size: 1.8rem;
   }
-
   .storage-options {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .color-options {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .color-option {
-    flex-direction: row;
-    justify-content: flex-start;
-    min-width: auto;
-    width: 100%;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   .quantity-controls {

@@ -300,9 +300,11 @@ const ProductDetail = () => {
             {((product.variants && product.variants.length > 0) || (product.colors && product.colors.length > 0)) && (
               <div className="product-variants">
                 <h4>옵션 선택</h4>
-                <div className="variants-container">                  {/* 저장용량 선택 */}
+                <div className="variants-container">
+                  
+                  {/* 저장용량 선택 */}
                   {product.variants && product.variants.length > 0 && (
-                    <div className="variant-group">
+                    <div className="variant-group storage-group">
                       <label className="variant-label">저장용량</label>
                       <div className="storage-options">
                         {[...new Set(product.variants.map(v => v.storage))].map((storage) => {
@@ -346,7 +348,7 @@ const ProductDetail = () => {
 
                   {/* 색상 선택 */}
                   {product.colors && product.colors.length > 0 && (
-                    <div className="variant-group">
+                    <div className="variant-group color-group">
                       <label className="variant-label">색상</label>
                       <div className="color-options">
                         {product.colors.map((color) => {
