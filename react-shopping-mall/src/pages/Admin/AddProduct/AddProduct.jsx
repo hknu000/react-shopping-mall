@@ -1,36 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaPlus, FaMinus, FaSave } from 'react-icons/fa';
+import { FaPlus, FaMinus, FaSave, FaArrowLeft } from 'react-icons/fa';
 import { productService } from '../../../services/product.service';
-import { PRODUCT_CATEGORIES } from '../../../utils/constants';
 import './AddProduct.css';
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);  const [formData, setFormData] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
     name: '',
     description: '',
-    detailDescription: '',
     price: '',
     salePrice: '',
     category: '',
     subcategory: '',
     brand: '',
     tags: [''],
-    specifications: [
-      { key: '화면 크기', value: '' },
-      { key: '저장 용량', value: '' },
-      { key: 'RAM', value: '' },
-      { key: '배터리', value: '' },
-      { key: '카메라', value: '' },
-      { key: 'OS', value: '' },
-      { key: '색상', value: '' },
-      { key: '무게', value: '' }
-    ],
-    variants: [{ name: '', price: '', salePrice: '', stockCount: '' }],
     stockCount: '',
     features: [''],
-    // 스마트폰 특화 필드
+    // 스마트폰/태블릿 특화 필드
     screenSize: '',
     storage: '',
     ram: '',
@@ -42,11 +31,23 @@ const AddProduct = () => {
     waterResistance: '',
     wirelessCharging: false,
     faceId: false,
-    fingerprint: false
+    fingerprint: false,
+    supports5G: false
   });
   
   const [images, setImages] = useState(['']);
   const [errors, setErrors] = useState({});
+
+  // 카테고리 옵션
+  const categoryOptions = [
+    { value: 'iphone', label: 'iPhone' },
+    { value: 'samsung', label: 'Samsung Galaxy' },
+    { value: 'pixel', label: 'Google Pixel' },
+    { value: 'tablet', label: '태블릿' },
+    { value: 'case', label: '폰 케이스' },
+    { value: 'earphone', label: '무선 이어폰' },
+    { value: 'etc', label: '기타' }
+  ];
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -136,17 +137,13 @@ const AddProduct = () => {
         navigate('/admin/products');
       } else {
         alert('상품 추가에 실패했습니다: ' + result.error);
-      }
-    } catch (error) {
+      }    } catch (error) {
       console.error('상품 추가 오류:', error);
       alert('상품 추가 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
-
-  const categories = Object.values(PRODUCT_CATEGORIES);
-  const selectedCategory = categories.find(cat => cat.id === formData.category);
 
   return (
     <div className="add-product-page">
@@ -189,9 +186,7 @@ const AddProduct = () => {
                   placeholder="브랜드명을 입력하세요"
                 />
                 {errors.brand && <span className="error-text">{errors.brand}</span>}
-              </div>
-
-              <div className="form-group">
+              </div>              <div className="form-group">
                 <label>카테고리 *</label>
                 <select
                   value={formData.category}
@@ -199,31 +194,13 @@ const AddProduct = () => {
                   className={errors.category ? 'error' : ''}
                 >
                   <option value="">카테고리 선택</option>
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
+                  {categoryOptions.map(category => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
+                    </option>                ))}
                 </select>
                 {errors.category && <span className="error-text">{errors.category}</span>}
               </div>
-
-              {selectedCategory?.subcategories && (
-                <div className="form-group">
-                  <label>서브카테고리</label>
-                  <select
-                    value={formData.subcategory}
-                    onChange={(e) => handleInputChange('subcategory', e.target.value)}
-                  >
-                    <option value="">서브카테고리 선택</option>
-                    {selectedCategory.subcategories.map(sub => (
-                      <option key={sub.id} value={sub.id}>
-                        {sub.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
             </div>
 
             <div className="form-group full-width">

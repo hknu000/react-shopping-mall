@@ -199,7 +199,23 @@
 .item-variant {
   font-size: 0.85rem;
   color: var(--gray-500);
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.5rem 0;
+}
+
+/* 선택된 옵션 정보 스타일 */
+.item-options {
+  margin: 0.5rem 0;
+}
+
+.item-option {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  margin: 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--gray-100);
+  border-radius: var(--border-radius-sm);
+  display: inline-block;
+  margin-right: 0.5rem;
 }
 
 .item-price {

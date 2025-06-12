@@ -72,9 +72,7 @@ const Header = () => {
             <button className="icon menu" onClick={toggleMobileMenu}>☰</button>
           </div>
         </nav>
-      </div>
-
-      <nav className="main-nav">
+      </div>      <nav className="main-nav">
         <ul>
           <li><Link to="/products?category=smartphone">스마트폰</Link></li>
           <li><Link to="/products?category=tablet">태블릿</Link></li>
@@ -91,8 +89,7 @@ const Header = () => {
             <button onClick={closeMobileMenu}>
               <FaTimes />
             </button>
-          </div>
-          <ul className="mobile-nav-list">
+          </div>          <ul className="mobile-nav-list">
             <li><Link to="/products?category=smartphone" onClick={closeMobileMenu}>스마트폰</Link></li>
             <li><Link to="/products?category=tablet" onClick={closeMobileMenu}>태블릿</Link></li>
             <li><Link to="/products?category=accessories" onClick={closeMobileMenu}>액세서리</Link></li>

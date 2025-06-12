@@ -139,10 +139,10 @@ export const PHONE_SPECS = {
 
 // 정렬 옵션
 export const SORT_OPTIONS = [
-  { value: 'latest', label: '최신순', sortBy: 'createdAt', sortOrder: 'desc' },
-  { value: 'popular', label: '인기순', sortBy: 'reviews', sortOrder: 'desc' },
-  { value: 'price-low', label: '낮은 가격순', sortBy: 'price', sortOrder: 'asc' },
-  { value: 'price-high', label: '높은 가격순', sortBy: 'price', sortOrder: 'desc' },
+  { value: 'latest', label: '최신순', sortBy: 'newest', sortOrder: 'desc' },
+  { value: 'popular', label: '인기순', sortBy: 'rating', sortOrder: 'desc' },
+  { value: 'price-low', label: '낮은 가격순', sortBy: 'price_asc', sortOrder: 'asc' },
+  { value: 'price-high', label: '높은 가격순', sortBy: 'price_desc', sortOrder: 'desc' },
   { value: 'rating', label: '평점순', sortBy: 'rating', sortOrder: 'desc' },
   { value: 'name', label: '이름순', sortBy: 'name', sortOrder: 'asc' }
 ];

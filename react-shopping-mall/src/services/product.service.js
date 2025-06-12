@@ -1,761 +1,664 @@
 import api from './api';
 import { API_ENDPOINTS } from '../utils/constants';
 
+// Mock 데이터
+const mockProducts = [
+  {
+    id: 'galaxy-s25-ultra',
+    name: 'Galaxy S25 Ultra',
+    price: 1790000,
+    originalPrice: 1890000,
+    salePrice: 1690000,
+    image: '/asset/samsung.s25.ultra.silverblue.png',
+    images: [
+      '/asset/samsung.s25.ultra.silverblue.png',
+      '/asset/samsung.s25.ultra.white.png',
+      '/asset/samsung.s25.ultra.black.png',
+      '/asset/samsung.s25.ultra.gray.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-s25',
+    brand: 'Samsung',
+    rating: 4.8,
+    reviewCount: 1567,
+    description: '궁극의 성능과 혁신적인 S펜 기능을 결합한 Galaxy S의 궁극 모델',
+    features: ['Snapdragon 8 Gen 3', 'S펜 내장', '200MP 카메라', '5000mAh 배터리', 'Galaxy AI'],
+    specifications: {
+      저장용량: '256GB, 512GB, 1TB',
+      카메라: '200MP 메인 + 50MP 페리스코프 + 12MP 울트라와이드 + 10MP 망원',
+      배터리: '5000mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '실버블루, 화이트, 블랙, 그레이'
+    },    stockCount: 25,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'S펜', 'AI', '울트라'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '6.8인치',
+    camera: '200MP 쿼드',
+    os: 'Android 15',
+    colors: ['실버블루', '화이트', '블랙', '그레이'],
+    variants: [
+      { id: 'galaxy-s25-ultra-256gb-silverblue', storage: '256GB', color: '실버블루', image: '/asset/samsung.s25.ultra.silverblue.png', salePrice: 1690000, inStock: true },
+      { id: 'galaxy-s25-ultra-512gb-silverblue', storage: '512GB', color: '실버블루', image: '/asset/samsung.s25.ultra.silverblue.png', salePrice: 1890000, inStock: true },
+      { id: 'galaxy-s25-ultra-1tb-silverblue', storage: '1TB', color: '실버블루', image: '/asset/samsung.s25.ultra.silverblue.png', salePrice: 2090000, inStock: true },
+      { id: 'galaxy-s25-ultra-256gb-white', storage: '256GB', color: '화이트', image: '/asset/samsung.s25.ultra.white.png', salePrice: 1690000, inStock: true },
+      { id: 'galaxy-s25-ultra-512gb-white', storage: '512GB', color: '화이트', image: '/asset/samsung.s25.ultra.white.png', salePrice: 1890000, inStock: true },
+      { id: 'galaxy-s25-ultra-1tb-white', storage: '1TB', color: '화이트', image: '/asset/samsung.s25.ultra.white.png', salePrice: 2090000, inStock: false },
+      { id: 'galaxy-s25-ultra-256gb-black', storage: '256GB', color: '블랙', image: '/asset/samsung.s25.ultra.black.png', salePrice: 1690000, inStock: true },
+      { id: 'galaxy-s25-ultra-512gb-black', storage: '512GB', color: '블랙', image: '/asset/samsung.s25.ultra.black.png', salePrice: 1890000, inStock: true },
+      { id: 'galaxy-s25-ultra-1tb-black', storage: '1TB', color: '블랙', image: '/asset/samsung.s25.ultra.black.png', salePrice: 2090000, inStock: true },
+      { id: 'galaxy-s25-ultra-256gb-gray', storage: '256GB', color: '그레이', image: '/asset/samsung.s25.ultra.gray.png', salePrice: 1690000, inStock: true },
+      { id: 'galaxy-s25-ultra-512gb-gray', storage: '512GB', color: '그레이', image: '/asset/samsung.s25.ultra.gray.png', salePrice: 1890000, inStock: false },
+      { id: 'galaxy-s25-ultra-1tb-gray', storage: '1TB', color: '그레이', image: '/asset/samsung.s25.ultra.gray.png', salePrice: 2090000, inStock: true }
+    ]
+  },
+  {
+    id: 'iphone-16',
+    name: 'iPhone 16',
+    price: 1290000,
+    originalPrice: 1290000,
+    salePrice: 1190000,
+    image: '/asset/apple.iphone16.normal.black.png',
+    images: [
+      '/asset/apple.iphone16.normal.black.png',
+      '/asset/apple.iphone16.normal.white.png',
+      '/asset/apple.iphone16.normal.pink.png',
+      '/asset/apple.iphone16.normal.teal.png',
+      '/asset/apple.iphone16.normal.ultramarine.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'iphone-16',
+    brand: 'Apple',
+    rating: 4.7,
+    reviewCount: 1543,
+    description: 'A18 칩과 새로운 기능들을 탑재한 차세대 iPhone',
+    features: ['A18 칩', '48MP 메인 카메라', '카메라 제어 버튼', 'Action Button', 'iOS 18'],
+    specifications: {
+      저장용량: '128GB, 256GB, 512GB',
+      카메라: '48MP Fusion 카메라',
+      배터리: '최대 22시간 비디오 재생',
+      운영체제: 'iOS 18',
+      색상: '블랙, 화이트, 핑크, 틸, 울트라마린'
+    },    stockCount: 38,
+    inStock: true,
+    tags: ['스마트폰', '아이폰', '애플', 'A18'],
+    createdAt: '2024-12-15',
+    storage: '128GB',
+    screenSize: '6.1인치',
+    camera: '48MP 듀얼',
+    os: 'iOS 18',
+    colors: ['블랙', '화이트', '핑크', '틸', '울트라마린'],
+    variants: [
+      { id: 'iphone-16-128gb-black', storage: '128GB', color: '블랙', image: '/asset/apple.iphone16.normal.black.png', salePrice: 1190000, inStock: true },
+      { id: 'iphone-16-256gb-black', storage: '256GB', color: '블랙', image: '/asset/apple.iphone16.normal.black.png', salePrice: 1350000, inStock: true },
+      { id: 'iphone-16-512gb-black', storage: '512GB', color: '블랙', image: '/asset/apple.iphone16.normal.black.png', salePrice: 1670000, inStock: true },
+      { id: 'iphone-16-128gb-white', storage: '128GB', color: '화이트', image: '/asset/apple.iphone16.normal.white.png', salePrice: 1190000, inStock: true },
+      { id: 'iphone-16-256gb-white', storage: '256GB', color: '화이트', image: '/asset/apple.iphone16.normal.white.png', salePrice: 1350000, inStock: true },
+      { id: 'iphone-16-512gb-white', storage: '512GB', color: '화이트', image: '/asset/apple.iphone16.normal.white.png', salePrice: 1670000, inStock: false },
+      { id: 'iphone-16-128gb-pink', storage: '128GB', color: '핑크', image: '/asset/apple.iphone16.normal.pink.png', salePrice: 1190000, inStock: true },
+      { id: 'iphone-16-256gb-pink', storage: '256GB', color: '핑크', image: '/asset/apple.iphone16.normal.pink.png', salePrice: 1350000, inStock: true },
+      { id: 'iphone-16-512gb-pink', storage: '512GB', color: '핑크', image: '/asset/apple.iphone16.normal.pink.png', salePrice: 1670000, inStock: true },
+      { id: 'iphone-16-128gb-teal', storage: '128GB', color: '틸', image: '/asset/apple.iphone16.normal.teal.png', salePrice: 1190000, inStock: true },
+      { id: 'iphone-16-256gb-teal', storage: '256GB', color: '틸', image: '/asset/apple.iphone16.normal.teal.png', salePrice: 1350000, inStock: true },
+      { id: 'iphone-16-512gb-teal', storage: '512GB', color: '틸', image: '/asset/apple.iphone16.normal.teal.png', salePrice: 1670000, inStock: true },
+      { id: 'iphone-16-128gb-ultramarine', storage: '128GB', color: '울트라마린', image: '/asset/apple.iphone16.normal.ultramarine.png', salePrice: 1190000, inStock: true },
+      { id: 'iphone-16-256gb-ultramarine', storage: '256GB', color: '울트라마린', image: '/asset/apple.iphone16.normal.ultramarine.png', salePrice: 1350000, inStock: false },
+      { id: 'iphone-16-512gb-ultramarine', storage: '512GB', color: '울트라마린', image: '/asset/apple.iphone16.normal.ultramarine.png', salePrice: 1670000, inStock: true }
+    ]
+  },
+  {
+    id: 'galaxy-s25-plus',
+    name: 'Galaxy S25+',
+    price: 1490000,
+    originalPrice: 1590000,
+    salePrice: 1390000,
+    image: '/asset/samsung.s25.plus.iceblue.png',
+    images: [
+      '/asset/samsung.s25.plus.iceblue.png',
+      '/asset/samsung.s25.plus.mint.png',
+      '/asset/samsung.s25.plus.navy.png',
+      '/asset/samsung.s25.plus.silver.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-s25',
+    brand: 'Samsung',
+    rating: 4.6,
+    reviewCount: 892,
+    description: '대화면과 강력한 성능을 결합한 Galaxy S25 시리즈의 플러스 모델',
+    features: ['Snapdragon 8 Gen 3', '50MP 트리플 카메라', '4900mAh 배터리', 'Galaxy AI', '6.7인치 Dynamic AMOLED'],
+    specifications: {
+      저장용량: '256GB, 512GB',
+      카메라: '50MP 메인 + 12MP 울트라와이드 + 10MP 망원',
+      배터리: '4900mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '아이시 블루, 민트, 네이비, 실버'
+    },    stockCount: 18,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'AI', '플러스'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '6.7인치',
+    camera: '50MP 트리플',
+    os: 'Android 15',
+    colors: ['아이시-블루', '민트', '네이비', '실버'],
+    variants: [
+      { id: 'galaxy-s25-plus-256gb-iceblue', storage: '256GB', color: '아이시-블루', image: '/asset/samsung.s25.plus.iceblue.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-s25-plus-512gb-iceblue', storage: '512GB', color: '아이시-블루', image: '/asset/samsung.s25.plus.iceblue.png', salePrice: 1590000, inStock: true },
+      { id: 'galaxy-s25-plus-256gb-mint', storage: '256GB', color: '민트', image: '/asset/samsung.s25.plus.mint.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-s25-plus-512gb-mint', storage: '512GB', color: '민트', image: '/asset/samsung.s25.plus.mint.png', salePrice: 1590000, inStock: false },
+      { id: 'galaxy-s25-plus-256gb-navy', storage: '256GB', color: '네이비', image: '/asset/samsung.s25.plus.navy.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-s25-plus-512gb-navy', storage: '512GB', color: '네이비', image: '/asset/samsung.s25.plus.navy.png', salePrice: 1590000, inStock: true },
+      { id: 'galaxy-s25-plus-256gb-silver', storage: '256GB', color: '실버', image: '/asset/samsung.s25.plus.silver.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-s25-plus-512gb-silver', storage: '512GB', color: '실버', image: '/asset/samsung.s25.plus.silver.png', salePrice: 1590000, inStock: true }
+    ]
+  },
+  {
+    id: 'galaxy-s25',
+    name: 'Galaxy S25',
+    price: 1190000,
+    originalPrice: 1290000,
+    salePrice: 1090000,
+    image: '/asset/samsung.s25.normal.iceblue.png',
+    images: [
+      '/asset/samsung.s25.normal.iceblue.png',
+      '/asset/samsung.s25.normal.mint.png',
+      '/asset/samsung.s25.normal.navy.png',
+      '/asset/samsung.s25.normal.silver.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-s25',
+    brand: 'Samsung',
+    rating: 4.5,
+    reviewCount: 654,
+    description: 'Galaxy AI와 함께하는 새로운 모바일 경험의 시작',
+    features: ['Snapdragon 8 Gen 3', '50MP 트리플 카메라', '4000mAh 배터리', 'Galaxy AI', '6.2인치 Dynamic AMOLED'],
+    specifications: {
+      저장용량: '128GB, 256GB, 512GB',
+      카메라: '50MP 메인 + 12MP 울트라와이드 + 10MP 망원',
+      배터리: '4000mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '아이시 블루, 민트, 네이비, 실버'
+    },    stockCount: 32,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'AI', '베이직'],
+    createdAt: '2024-12-15',
+    storage: '128GB',
+    screenSize: '6.2인치',
+    camera: '50MP 트리플',
+    os: 'Android 15',
+    colors: ['아이시-블루', '민트', '네이비', '실버'],
+    variants: [
+      { id: 'galaxy-s25-128gb-iceblue', storage: '128GB', color: '아이시-블루', image: '/asset/samsung.s25.normal.iceblue.png', salePrice: 1090000, inStock: true },
+      { id: 'galaxy-s25-256gb-iceblue', storage: '256GB', color: '아이시-블루', image: '/asset/samsung.s25.normal.iceblue.png', salePrice: 1250000, inStock: true },
+      { id: 'galaxy-s25-512gb-iceblue', storage: '512GB', color: '아이시-블루', image: '/asset/samsung.s25.normal.iceblue.png', salePrice: 1450000, inStock: true },
+      { id: 'galaxy-s25-128gb-mint', storage: '128GB', color: '민트', image: '/asset/samsung.s25.normal.mint.png', salePrice: 1090000, inStock: true },
+      { id: 'galaxy-s25-256gb-mint', storage: '256GB', color: '민트', image: '/asset/samsung.s25.normal.mint.png', salePrice: 1250000, inStock: false },
+      { id: 'galaxy-s25-512gb-mint', storage: '512GB', color: '민트', image: '/asset/samsung.s25.normal.mint.png', salePrice: 1450000, inStock: true },
+      { id: 'galaxy-s25-128gb-navy', storage: '128GB', color: '네이비', image: '/asset/samsung.s25.normal.navy.png', salePrice: 1090000, inStock: true },
+      { id: 'galaxy-s25-256gb-navy', storage: '256GB', color: '네이비', image: '/asset/samsung.s25.normal.navy.png', salePrice: 1250000, inStock: true },
+      { id: 'galaxy-s25-512gb-navy', storage: '512GB', color: '네이비', image: '/asset/samsung.s25.normal.navy.png', salePrice: 1450000, inStock: true },
+      { id: 'galaxy-s25-128gb-silver', storage: '128GB', color: '실버', image: '/asset/samsung.s25.normal.silver.png', salePrice: 1090000, inStock: true },
+      { id: 'galaxy-s25-256gb-silver', storage: '256GB', color: '실버', image: '/asset/samsung.s25.normal.silver.png', salePrice: 1250000, inStock: true },
+      { id: 'galaxy-s25-512gb-silver', storage: '512GB', color: '실버', image: '/asset/samsung.s25.normal.silver.png', salePrice: 1450000, inStock: false }
+    ]
+  },
+  {
+    id: 'iphone-16-plus',
+    name: 'iPhone 16 Plus',
+    price: 1490000,
+    originalPrice: 1490000,
+    salePrice: 1390000,
+    image: '/asset/apple.iphone16.plus.black.png',
+    images: [
+      '/asset/apple.iphone16.plus.black.png',
+      '/asset/apple.iphone16.plus.white.png',
+      '/asset/apple.iphone16.plus.pink.png',
+      '/asset/apple.iphone16.plus.teal.png',
+      '/asset/apple.iphone16.plus.ultramarine.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'iphone-16',
+    brand: 'Apple',
+    rating: 4.6,
+    reviewCount: 743,
+    description: '더 큰 화면으로 즐기는 iPhone 16의 모든 기능',
+    features: ['A18 칩', '48MP 메인 카메라', '카메라 제어 버튼', 'Action Button', 'iOS 18', '6.7인치 디스플레이'],
+    specifications: {
+      저장용량: '128GB, 256GB, 512GB',
+      카메라: '48MP Fusion 카메라',
+      배터리: '최대 27시간 비디오 재생',
+      운영체제: 'iOS 18',
+      색상: '블랙, 화이트, 핑크, 틸, 울트라마린'
+    },    stockCount: 22,
+    inStock: true,
+    tags: ['스마트폰', '아이폰', '애플', 'A18', '플러스'],
+    createdAt: '2024-12-15',
+    storage: '128GB',
+    screenSize: '6.7인치',
+    camera: '48MP 듀얼',
+    os: 'iOS 18',
+    colors: ['블랙', '화이트', '핑크', '틸', '울트라마린'],
+    variants: [
+      { id: 'iphone-16-plus-128gb-black', storage: '128GB', color: '블랙', image: '/asset/apple.iphone16.plus.black.png', salePrice: 1390000, inStock: true },
+      { id: 'iphone-16-plus-256gb-black', storage: '256GB', color: '블랙', image: '/asset/apple.iphone16.plus.black.png', salePrice: 1550000, inStock: true },
+      { id: 'iphone-16-plus-512gb-black', storage: '512GB', color: '블랙', image: '/asset/apple.iphone16.plus.black.png', salePrice: 1870000, inStock: true },
+      { id: 'iphone-16-plus-128gb-white', storage: '128GB', color: '화이트', image: '/asset/apple.iphone16.plus.white.png', salePrice: 1390000, inStock: true },
+      { id: 'iphone-16-plus-256gb-white', storage: '256GB', color: '화이트', image: '/asset/apple.iphone16.plus.white.png', salePrice: 1550000, inStock: false },
+      { id: 'iphone-16-plus-512gb-white', storage: '512GB', color: '화이트', image: '/asset/apple.iphone16.plus.white.png', salePrice: 1870000, inStock: true },
+      { id: 'iphone-16-plus-128gb-pink', storage: '128GB', color: '핑크', image: '/asset/apple.iphone16.plus.pink.png', salePrice: 1390000, inStock: true },
+      { id: 'iphone-16-plus-256gb-pink', storage: '256GB', color: '핑크', image: '/asset/apple.iphone16.plus.pink.png', salePrice: 1550000, inStock: true },
+      { id: 'iphone-16-plus-512gb-pink', storage: '512GB', color: '핑크', image: '/asset/apple.iphone16.plus.pink.png', salePrice: 1870000, inStock: true },
+      { id: 'iphone-16-plus-128gb-teal', storage: '128GB', color: '틸', image: '/asset/apple.iphone16.plus.teal.png', salePrice: 1390000, inStock: true },
+      { id: 'iphone-16-plus-256gb-teal', storage: '256GB', color: '틸', image: '/asset/apple.iphone16.plus.teal.png', salePrice: 1550000, inStock: true },
+      { id: 'iphone-16-plus-512gb-teal', storage: '512GB', color: '틸', image: '/asset/apple.iphone16.plus.teal.png', salePrice: 1870000, inStock: false },
+      { id: 'iphone-16-plus-128gb-ultramarine', storage: '128GB', color: '울트라마린', image: '/asset/apple.iphone16.plus.ultramarine.png', salePrice: 1390000, inStock: true },
+      { id: 'iphone-16-plus-256gb-ultramarine', storage: '256GB', color: '울트라마린', image: '/asset/apple.iphone16.plus.ultramarine.png', salePrice: 1550000, inStock: true },
+      { id: 'iphone-16-plus-512gb-ultramarine', storage: '512GB', color: '울트라마린', image: '/asset/apple.iphone16.plus.ultramarine.png', salePrice: 1870000, inStock: true }
+    ]
+  },
+  {
+    id: 'galaxy-z-flip6',
+    name: 'Galaxy Z Flip6',
+    price: 1490000,
+    originalPrice: 1590000,
+    salePrice: 1390000,
+    image: '/asset/samsung.zflip6.blue.png',
+    images: [
+      '/asset/samsung.zflip6.blue.png',
+      '/asset/samsung.zflip6.mint.png',
+      '/asset/samsung.zflip6.silver.png',
+      '/asset/samsung.zflip6.yellow.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-z',
+    brand: 'Samsung',
+    rating: 4.4,
+    reviewCount: 567,
+    description: '혁신적인 플립 폼팩터로 새로운 모바일 라이프스타일을 제안하는 폴더블 스마트폰',
+    features: ['Snapdragon 8 Gen 3', '50MP 듀얼 카메라', '4000mAh 배터리', 'Galaxy AI', '플렉스 모드'],
+    specifications: {
+      저장용량: '256GB, 512GB',
+      카메라: '50MP 메인 + 12MP 울트라와이드',
+      배터리: '4000mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '블루, 민트, 실버, 옐로우'
+    },    stockCount: 15,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'AI', '폴더블', '플립'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '6.7인치 (펼쳤을 때)',
+    camera: '50MP 듀얼',
+    os: 'Android 15',
+    colors: ['블루', '민트', '실버', '옐로우'],
+    variants: [
+      { id: 'galaxy-z-flip6-256gb-blue', storage: '256GB', color: '블루', image: '/asset/samsung.zflip6.blue.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-z-flip6-512gb-blue', storage: '512GB', color: '블루', image: '/asset/samsung.zflip6.blue.png', salePrice: 1590000, inStock: true },
+      { id: 'galaxy-z-flip6-256gb-mint', storage: '256GB', color: '민트', image: '/asset/samsung.zflip6.mint.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-z-flip6-512gb-mint', storage: '512GB', color: '민트', image: '/asset/samsung.zflip6.mint.png', salePrice: 1590000, inStock: false },
+      { id: 'galaxy-z-flip6-256gb-silver', storage: '256GB', color: '실버', image: '/asset/samsung.zflip6.silver.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-z-flip6-512gb-silver', storage: '512GB', color: '실버', image: '/asset/samsung.zflip6.silver.png', salePrice: 1590000, inStock: true },
+      { id: 'galaxy-z-flip6-256gb-yellow', storage: '256GB', color: '옐로우', image: '/asset/samsung.zflip6.yellow.png', salePrice: 1390000, inStock: true },
+      { id: 'galaxy-z-flip6-512gb-yellow', storage: '512GB', color: '옐로우', image: '/asset/samsung.zflip6.yellow.png', salePrice: 1590000, inStock: true }
+    ]
+  },
+  {
+    id: 'iphone-16-pro-max',
+    name: 'iPhone 16 Pro Max',
+    price: 2190000,
+    originalPrice: 2190000,
+    salePrice: 2090000,
+    image: '/asset/apple.iphone16.promax.black.png',
+    images: [
+      '/asset/apple.iphone16.promax.black.png',
+      '/asset/apple.iphone16.promax.white.png',
+      '/asset/apple.iphone16.promax.natural.png',
+      '/asset/apple.iphone16.promax.desert.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'iphone-16-pro',
+    brand: 'Apple',
+    rating: 4.9,
+    reviewCount: 1234,
+    description: 'iPhone의 가장 진보된 기술을 담은 최고급 모델',
+    features: ['A18 Pro 칩', '48MP 프로 카메라 시스템', '티타늄 디자인', '120Hz ProMotion', 'Action Button'],
+    specifications: {
+      저장용량: '256GB, 512GB, 1TB',
+      카메라: '48MP 프로 카메라 시스템',
+      배터리: '최대 33시간 비디오 재생',
+      운영체제: 'iOS 18',
+      색상: '블랙 티타늄, 화이트 티타늄, 내추럴 티타늄, 데저트 티타늄'
+    },    stockCount: 8,
+    inStock: true,
+    tags: ['스마트폰', '아이폰', '애플', 'A18Pro', '프로맥스', '티타늄'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '6.9인치',
+    camera: '48MP 프로',
+    os: 'iOS 18',
+    colors: ['블랙-티타늄', '화이트-티타늄', '내추럴-티타늄', '데저트-티타늄'],
+    variants: [
+      { id: 'iphone-16-pro-max-256gb-black', storage: '256GB', color: '블랙-티타늄', image: '/asset/apple.iphone16.promax.black.png', salePrice: 2090000, inStock: true },
+      { id: 'iphone-16-pro-max-512gb-black', storage: '512GB', color: '블랙-티타늄', image: '/asset/apple.iphone16.promax.black.png', salePrice: 2410000, inStock: true },
+      { id: 'iphone-16-pro-max-1tb-black', storage: '1TB', color: '블랙-티타늄', image: '/asset/apple.iphone16.promax.black.png', salePrice: 2730000, inStock: false },
+      { id: 'iphone-16-pro-max-256gb-white', storage: '256GB', color: '화이트-티타늄', image: '/asset/apple.iphone16.promax.white.png', salePrice: 2090000, inStock: true },
+      { id: 'iphone-16-pro-max-512gb-white', storage: '512GB', color: '화이트-티타늄', image: '/asset/apple.iphone16.promax.white.png', salePrice: 2410000, inStock: true },
+      { id: 'iphone-16-pro-max-1tb-white', storage: '1TB', color: '화이트-티타늄', image: '/asset/apple.iphone16.promax.white.png', salePrice: 2730000, inStock: true },
+      { id: 'iphone-16-pro-max-256gb-natural', storage: '256GB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.promax.natural.png', salePrice: 2090000, inStock: true },
+      { id: 'iphone-16-pro-max-512gb-natural', storage: '512GB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.promax.natural.png', salePrice: 2410000, inStock: true },
+      { id: 'iphone-16-pro-max-1tb-natural', storage: '1TB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.promax.natural.png', salePrice: 2730000, inStock: true },
+      { id: 'iphone-16-pro-max-256gb-desert', storage: '256GB', color: '데저트-티타늄', image: '/asset/apple.iphone16.promax.desert.png', salePrice: 2090000, inStock: true },
+      { id: 'iphone-16-pro-max-512gb-desert', storage: '512GB', color: '데저트-티타늄', image: '/asset/apple.iphone16.promax.desert.png', salePrice: 2410000, inStock: false },
+      { id: 'iphone-16-pro-max-1tb-desert', storage: '1TB', color: '데저트-티타늄', image: '/asset/apple.iphone16.promax.desert.png', salePrice: 2730000, inStock: true }
+    ]
+  },
+  {
+    id: 'galaxy-z-fold6',
+    name: 'Galaxy Z Fold6',
+    price: 2390000,
+    originalPrice: 2490000,
+    salePrice: 2290000,
+    image: '/asset/samsung.zfold6.navy.png',
+    images: [
+      '/asset/samsung.zfold6.navy.png',
+      '/asset/samsung.zfold6.pink.png',
+      '/asset/samsung.zfold6.silver.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-z',
+    brand: 'Samsung',
+    rating: 4.7,
+    reviewCount: 423,
+    description: '태블릿과 스마트폰을 하나로 만나는 궁극의 폴더블 디바이스',
+    features: ['Snapdragon 8 Gen 3', '50MP 트리플 카메라', '4400mAh 배터리', 'Galaxy AI', 'S펜 호환'],
+    specifications: {
+      저장용량: '256GB, 512GB, 1TB',
+      카메라: '50MP 메인 + 12MP 울트라와이드 + 10MP 망원',
+      배터리: '4400mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '네이비, 핑크, 실버'
+    },    stockCount: 12,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'AI', '폴더블', '폴드'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '7.6인치 (펼쳤을 때)',
+    camera: '50MP 트리플',
+    os: 'Android 15',
+    colors: ['네이비', '핑크', '실버'],
+    variants: [
+      { id: 'galaxy-z-fold6-256gb-navy', storage: '256GB', color: '네이비', image: '/asset/samsung.zfold6.navy.png', salePrice: 2290000, inStock: true },
+      { id: 'galaxy-z-fold6-512gb-navy', storage: '512GB', color: '네이비', image: '/asset/samsung.zfold6.navy.png', salePrice: 2490000, inStock: true },
+      { id: 'galaxy-z-fold6-1tb-navy', storage: '1TB', color: '네이비', image: '/asset/samsung.zfold6.navy.png', salePrice: 2690000, inStock: false },
+      { id: 'galaxy-z-fold6-256gb-pink', storage: '256GB', color: '핑크', image: '/asset/samsung.zfold6.pink.png', salePrice: 2290000, inStock: true },
+      { id: 'galaxy-z-fold6-512gb-pink', storage: '512GB', color: '핑크', image: '/asset/samsung.zfold6.pink.png', salePrice: 2490000, inStock: true },
+      { id: 'galaxy-z-fold6-1tb-pink', storage: '1TB', color: '핑크', image: '/asset/samsung.zfold6.pink.png', salePrice: 2690000, inStock: true },
+      { id: 'galaxy-z-fold6-256gb-silver', storage: '256GB', color: '실버', image: '/asset/samsung.zfold6.silver.png', salePrice: 2290000, inStock: true },
+      { id: 'galaxy-z-fold6-512gb-silver', storage: '512GB', color: '실버', image: '/asset/samsung.zfold6.silver.png', salePrice: 2490000, inStock: false },
+      { id: 'galaxy-z-fold6-1tb-silver', storage: '1TB', color: '실버', image: '/asset/samsung.zfold6.silver.png', salePrice: 2690000, inStock: true }
+    ]
+  },
+  {
+    id: 'iphone-16-pro',
+    name: 'iPhone 16 Pro',
+    price: 1690000,
+    originalPrice: 1690000,
+    salePrice: 1590000,
+    image: '/asset/apple.iphone16.pro.black.png',
+    images: [
+      '/asset/apple.iphone16.pro.black.png',
+      '/asset/apple.iphone16.pro.white.png',
+      '/asset/apple.iphone16.pro.natural.png',
+      '/asset/apple.iphone16.pro.desert.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'iphone-16-pro',
+    brand: 'Apple',
+    rating: 4.8,
+    reviewCount: 891,
+    description: 'Pro급 성능과 프로 카메라 시스템을 갖춘 iPhone 16 Pro',
+    features: ['A18 Pro 칩', '48MP 프로 카메라 시스템', '티타늄 디자인', '120Hz ProMotion', 'Action Button'],
+    specifications: {
+      저장용량: '128GB, 256GB, 512GB, 1TB',
+      카메라: '48MP 프로 카메라 시스템',
+      배터리: '최대 27시간 비디오 재생',
+      운영체제: 'iOS 18',
+      색상: '블랙 티타늄, 화이트 티타늄, 내추럴 티타늄, 데저트 티타늄'
+    },    stockCount: 15,
+    inStock: true,
+    tags: ['스마트폰', '아이폰', '애플', 'A18Pro', '프로', '티타늄'],
+    createdAt: '2024-12-15',
+    storage: '128GB',
+    screenSize: '6.3인치',
+    camera: '48MP 프로',
+    os: 'iOS 18',
+    colors: ['블랙-티타늄', '화이트-티타늄', '내추럴-티타늄', '데저트-티타늄'],
+    variants: [
+      { id: 'iphone-16-pro-128gb-black', storage: '128GB', color: '블랙-티타늄', image: '/asset/apple.iphone16.pro.black.png', salePrice: 1590000, inStock: true },
+      { id: 'iphone-16-pro-256gb-black', storage: '256GB', color: '블랙-티타늄', image: '/asset/apple.iphone16.pro.black.png', salePrice: 1750000, inStock: true },
+      { id: 'iphone-16-pro-512gb-black', storage: '512GB', color: '블랙-티타늄', image: '/asset/apple.iphone16.pro.black.png', salePrice: 2070000, inStock: true },
+      { id: 'iphone-16-pro-1tb-black', storage: '1TB', color: '블랙-티타늄', image: '/asset/apple.iphone16.pro.black.png', salePrice: 2390000, inStock: false },
+      { id: 'iphone-16-pro-128gb-white', storage: '128GB', color: '화이트-티타늄', image: '/asset/apple.iphone16.pro.white.png', salePrice: 1590000, inStock: true },
+      { id: 'iphone-16-pro-256gb-white', storage: '256GB', color: '화이트-티타늄', image: '/asset/apple.iphone16.pro.white.png', salePrice: 1750000, inStock: true },
+      { id: 'iphone-16-pro-512gb-white', storage: '512GB', color: '화이트-티타늄', image: '/asset/apple.iphone16.pro.white.png', salePrice: 2070000, inStock: true },
+      { id: 'iphone-16-pro-1tb-white', storage: '1TB', color: '화이트-티타늄', image: '/asset/apple.iphone16.pro.white.png', salePrice: 2390000, inStock: true },
+      { id: 'iphone-16-pro-128gb-natural', storage: '128GB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.pro.natural.png', salePrice: 1590000, inStock: true },
+      { id: 'iphone-16-pro-256gb-natural', storage: '256GB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.pro.natural.png', salePrice: 1750000, inStock: true },
+      { id: 'iphone-16-pro-512gb-natural', storage: '512GB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.pro.natural.png', salePrice: 2070000, inStock: false },
+      { id: 'iphone-16-pro-1tb-natural', storage: '1TB', color: '내추럴-티타늄', image: '/asset/apple.iphone16.pro.natural.png', salePrice: 2390000, inStock: true },
+      { id: 'iphone-16-pro-128gb-desert', storage: '128GB', color: '데저트-티타늄', image: '/asset/apple.iphone16.pro.desert.png', salePrice: 1590000, inStock: true },
+      { id: 'iphone-16-pro-256gb-desert', storage: '256GB', color: '데저트-티타늄', image: '/asset/apple.iphone16.pro.desert.png', salePrice: 1750000, inStock: true },
+      { id: 'iphone-16-pro-512gb-desert', storage: '512GB', color: '데저트-티타늄', image: '/asset/apple.iphone16.pro.desert.png', salePrice: 2070000, inStock: true },
+      { id: 'iphone-16-pro-1tb-desert', storage: '1TB', color: '데저트-티타늄', image: '/asset/apple.iphone16.pro.desert.png', salePrice: 2390000, inStock: true }
+    ]
+  },
+  {
+    id: 'galaxy-s25-edge',
+    name: 'Galaxy S25 Edge',
+    price: 1390000,
+    originalPrice: 1490000,
+    salePrice: 1290000,
+    image: '/asset/samsung.s25.edge.iceblue.png',
+    images: [
+      '/asset/samsung.s25.edge.iceblue.png',
+      '/asset/samsung.s25.edge.black.png',
+      '/asset/samsung.s25.edge.silver.png'
+    ],
+    category: 'smartphone',
+    subcategory: 'galaxy-s25',
+    brand: 'Samsung',
+    rating: 4.4,
+    reviewCount: 432,
+    description: '커브드 엣지 디스플레이와 슬림한 디자인이 특징인 Galaxy S25 Edge',
+    features: ['Snapdragon 8 Gen 3', '50MP 트리플 카메라', '4200mAh 배터리', 'Galaxy AI', '6.5인치 Edge 디스플레이'],
+    specifications: {
+      저장용량: '256GB, 512GB',
+      카메라: '50MP 메인 + 12MP 울트라와이드 + 10MP 망원',
+      배터리: '4200mAh',
+      운영체제: 'Android 15 (One UI 7)',
+      색상: '아이시 블루, 블랙, 실버'
+    },    stockCount: 20,
+    inStock: true,
+    tags: ['스마트폰', '갤럭시', '삼성', 'AI', '엣지'],
+    createdAt: '2024-12-15',
+    storage: '256GB',
+    screenSize: '6.5인치',
+    camera: '50MP 트리플',
+    os: 'Android 15',
+    colors: ['아이시-블루', '블랙', '실버'],
+    variants: [
+      { id: 'galaxy-s25-edge-256gb-iceblue', storage: '256GB', color: '아이시-블루', image: '/asset/samsung.s25.edge.iceblue.png', salePrice: 1290000, inStock: true },
+      { id: 'galaxy-s25-edge-512gb-iceblue', storage: '512GB', color: '아이시-블루', image: '/asset/samsung.s25.edge.iceblue.png', salePrice: 1490000, inStock: true },
+      { id: 'galaxy-s25-edge-256gb-black', storage: '256GB', color: '블랙', image: '/asset/samsung.s25.edge.black.png', salePrice: 1290000, inStock: true },
+      { id: 'galaxy-s25-edge-512gb-black', storage: '512GB', color: '블랙', image: '/asset/samsung.s25.edge.black.png', salePrice: 1490000, inStock: false },
+      { id: 'galaxy-s25-edge-256gb-silver', storage: '256GB', color: '실버', image: '/asset/samsung.s25.edge.silver.png', salePrice: 1290000, inStock: true },
+      { id: 'galaxy-s25-edge-512gb-silver', storage: '512GB', color: '실버', image: '/asset/samsung.s25.edge.silver.png', salePrice: 1490000, inStock: true }
+    ]
+  }
+];
+
+// Mock 함수들
+const getMockProducts = (params = {}) => {
+  let products = [...mockProducts];
+  
+  // 검색 필터링
+  if (params.search) {
+    const searchTerm = params.search.toLowerCase();
+    products = products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.brand.toLowerCase().includes(searchTerm) ||
+      product.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+    );
+  }
+  
+  // 카테고리 필터링
+  if (params.category) {
+    products = products.filter(product => product.category === params.category);
+  }
+  
+  // 브랜드 필터링
+  if (params.brand) {
+    products = products.filter(product => product.brand === params.brand);
+  }
+  
+  // 가격 필터링
+  if (params.minPrice) {
+    products = products.filter(product => (product.salePrice || product.price) >= params.minPrice);
+  }
+  if (params.maxPrice) {
+    products = products.filter(product => (product.salePrice || product.price) <= params.maxPrice);
+  }
+  
+  // 재고 필터링
+  if (params.inStock) {
+    products = products.filter(product => product.stockCount > 0);
+  }
+  
+  // 할인 상품 필터링
+  if (params.onSale) {
+    products = products.filter(product => product.salePrice && product.salePrice < product.price);
+  }
+  
+  // 정렬
+  if (params.sortBy) {
+    switch (params.sortBy) {
+      case 'price_asc':
+        products.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));
+        break;
+      case 'price_desc':
+        products.sort((a, b) => (b.salePrice || b.price) - (a.salePrice || a.price));
+        break;
+      case 'name_asc':
+        products.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name_desc':
+        products.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case 'rating':
+        products.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'latest':
+      default:
+        products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+    }
+  }
+  
+  const totalCount = products.length;
+  const page = params.page || 1;
+  const limit = params.limit || 8;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const paginatedProducts = products.slice(startIndex, endIndex);
+  
+  return {
+    success: true,
+    data: {
+      products: paginatedProducts,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+      hasNextPage: endIndex < totalCount,
+      hasPrevPage: page > 1
+    }
+  };
+};
+
+const getMockProduct = (productId) => {
+  const product = mockProducts.find(p => p.id === productId);
+  return {
+    success: !!product,
+    data: { product: product || null }
+  };
+};
+
+const getMockFeaturedProducts = (limit = 16) => {
+  // 인기 상품들을 랜덤하게 섞어서 반환
+  const shuffled = [...mockProducts].sort(() => 0.5 - Math.random());
+  return {
+    success: true,
+    data: shuffled.slice(0, limit)
+  };
+};
+
+const getMockRelatedProducts = (productId, limit = 4) => {
+  const currentProduct = mockProducts.find(p => p.id === productId);
+  if (!currentProduct) {
+    return { success: false, data: [] };
+  }
+  
+  // 같은 브랜드 또는 카테고리의 상품들을 찾기
+  const related = mockProducts.filter(p => 
+    p.id !== productId && 
+    (p.brand === currentProduct.brand || p.category === currentProduct.category)
+  );
+  
+  return {
+    success: true,
+    data: related.slice(0, limit)
+  };
+};
+
+// 서비스 객체
 export const productService = {
-  // 상품 목록 조회
   getProducts: async (params = {}) => {
-    const queryString = new URLSearchParams(params).toString();
-    const url = queryString ? `${API_ENDPOINTS.PRODUCTS.LIST}?${queryString}` : API_ENDPOINTS.PRODUCTS.LIST;
-    
-    // 개발 환경에서는 Mock 데이터 반환
     if (process.env.NODE_ENV === 'development') {
       return getMockProducts(params);
     }
-    
-    return await api.get(url);
+    return await api.get(API_ENDPOINTS.PRODUCTS.LIST);
   },
 
-  // 상품 상세 조회
   getProduct: async (productId) => {
-    // 개발 환경에서는 Mock 데이터 반환
     if (process.env.NODE_ENV === 'development') {
       return getMockProduct(productId);
     }
-    
-    const url = API_ENDPOINTS.PRODUCTS.DETAIL.replace(':id', productId);
-    return await api.get(url);
+    return await api.get(`${API_ENDPOINTS.PRODUCTS.DETAIL}/${productId}`);
   },
 
-  // 추천 상품 조회
   getFeaturedProducts: async (limit = 8) => {
-    // 개발 환경에서는 Mock 데이터 반환
     if (process.env.NODE_ENV === 'development') {
       return getMockFeaturedProducts(limit);
     }
-    
     return await api.get(`${API_ENDPOINTS.PRODUCTS.FEATURED}?limit=${limit}`);
   },
 
-  // 관련 상품 조회
   getRelatedProducts: async (productId, limit = 4) => {
-    // 개발 환경에서는 Mock 데이터 반환
     if (process.env.NODE_ENV === 'development') {
       return getMockRelatedProducts(productId, limit);
     }
-    
     return await api.get(`/products/${productId}/related?limit=${limit}`);
   },
 
-  // 상품 검색
   searchProducts: async (query, filters = {}) => {
-    const params = { search: query, ...filters };
+    const params = { q: query, ...filters };
     return await productService.getProducts(params);
   },
 
-  // 카테고리별 상품 조회
-  getProductsByCategory: async (category, subcategory = null, params = {}) => {
-    const searchParams = { category, ...params };
-    if (subcategory) {
-      searchParams.subcategory = subcategory;
-    }
-    return await productService.getProducts(searchParams);
-  },
-
-  // 상품 리뷰 조회
-  getProductReviews: async (productId, params = {}) => {
-    // 개발 환경에서는 Mock 데이터 반환
-    if (process.env.NODE_ENV === 'development') {
-      return getMockProductReviews(productId, params);
-    }
-    
-    const queryString = new URLSearchParams(params).toString();
-    const url = queryString 
-      ? `/products/${productId}/reviews?${queryString}` 
-      : `/products/${productId}/reviews`;
-    return await api.get(url);
-  },
-
-  // 상품 리뷰 작성
-  createProductReview: async (productId, reviewData) => {
-    return await api.post(`/products/${productId}/reviews`, reviewData);
-  },
-
-  // 상품 리뷰 수정
-  updateProductReview: async (productId, reviewId, reviewData) => {
-    return await api.put(`/products/${productId}/reviews/${reviewId}`, reviewData);
-  },
-
-  // 상품 리뷰 삭제
-  deleteProductReview: async (productId, reviewId) => {
-    return await api.delete(`/products/${productId}/reviews/${reviewId}`);
-  },
-
-  // 상품 위시리스트 추가
-  addToWishlist: async (productId) => {
-    return await api.post(`/products/${productId}/wishlist`);
-  },
-
-  // 상품 위시리스트 제거
-  removeFromWishlist: async (productId) => {
-    return await api.delete(`/products/${productId}/wishlist`);
-  },
-
-  // 카테고리 목록 조회
-  getCategories: async () => {
-    // 개발 환경에서는 Mock 데이터 반환
-    if (process.env.NODE_ENV === 'development') {
-      return getMockCategories();
-    }
-    
-    return await api.get(API_ENDPOINTS.PRODUCTS.CATEGORIES);
-  },
-
-  // 브랜드 목록 조회
-  getBrands: async () => {
-    return await api.get('/products/brands');
-  },
-
-  // 상품 재고 확인
-  checkStock: async (productId, quantity = 1) => {
-    return await api.get(`/products/${productId}/stock?quantity=${quantity}`);
+  getProductsByCategory: async (category, filters = {}) => {
+    const params = { category, ...filters };
+    return await productService.getProducts(params);
   }
-};
-
-// Mock 데이터 함수들 (개발용)
-const getMockProducts = async (params) => {
-  // 시뮬레이션을 위한 지연
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  const mockProducts = [
-    {
-      id: 1,
-      name: 'iPhone 16 Pro Max',
-      price: 1890000,
-      salePrice: 1790000,
-      image: '/images/products/apple/iphone16-promax.jpg',
-      images: [
-        '/images/products/apple/iphone16-promax.jpg',
-        '/images/products/apple/iphone16-promax-2.jpg',
-        '/images/products/apple/iphone16-promax-3.jpg'
-      ],
-      category: 'iphone',
-      subcategory: 'iphone-16',
-      brand: 'Apple',
-      rating: 4.9,
-      reviewCount: 1247,
-      description: '혁신적인 카메라 제어 기능과 A18 Pro 칩을 탑재한 역대 가장 강력한 iPhone',
-      features: ['A18 Pro 칩', '티타늄 디자인', '새로운 카메라 제어 버튼', '48MP Pro 카메라', '5배 광학 줌'],
-      specifications: {
-        화면: '6.9인치 Super Retina XDR',
-        칩셋: 'A18 Pro',
-        저장용량: '256GB, 512GB, 1TB, 2TB',
-        카메라: '48MP 메인 + 12MP 초광각 + 12MP 망원',
-        배터리: '최대 29시간 비디오 재생',
-        운영체제: 'iOS 17',
-        색상: '네추럴 티타늄, 블루 티타늄, 화이트 티타늄, 블랙 티타늄'
-      },
-      inStock: true,
-      stockCount: 15,
-      tags: ['스마트폰', '아이폰', '애플', '프리미엄', '프로'],
-      createdAt: '2024-01-10',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '6.7인치',
-      camera: '48MP 프로',
-      os: 'iOS 17',
-      colors: ['네추럴 티타늄', '블루 티타늄', '화이트 티타늄', '블랙 티타늄'],
-      ram: '8GB',
-      battery: '4441mAh',
-      weight: '221g',
-      waterResistance: 'IP68',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: false,
-      supports5G: true,
-      performanceScore: 920000,
-      batteryLife: 29
-    },    {
-      id: 2,
-      name: 'Samsung Galaxy S25 Ultra',
-      price: 1790000,
-      salePrice: 1690000,
-      image: '/images/products/samsung/galaxy-s25-ultra.jpg',
-      images: [
-        '/images/products/samsung/galaxy-s25-ultra.jpg',
-        '/images/products/samsung/galaxy-s25-ultra-2.jpg',
-        '/images/products/samsung/galaxy-s25-ultra-3.jpg'
-      ],
-      category: 'samsung',
-      subcategory: 'galaxy-s25',
-      brand: 'Samsung',
-      rating: 4.9,
-      reviewCount: 1432,
-      description: 'S펜이 내장된 최고급 플래그십 스마트폰. 향상된 250MP 카메라와 진화한 Galaxy AI 탑재',
-      features: ['Snapdragon 8 Gen 4', '250MP 카메라', 'S펜 내장', '차세대 Galaxy AI', '120배 스페이스 줌'],
-      specifications: {
-        화면: '7.0인치 Dynamic AMOLED 3X',
-        칩셋: 'Snapdragon 8 Gen 4',
-        저장용량: '256GB, 512GB, 1TB, 2TB',
-        카메라: '250MP 메인 + 50MP 망원 + 12MP 망원 + 12MP 초광각',
-        배터리: '5500mAh',
-        운영체제: 'Android 14 (One UI 6.1)',
-        색상: '티타늄 그레이, 티타늄 바이올렛, 티타늄 옐로우, 티타늄 블랙'
-      },
-      inStock: true,
-      stockCount: 23,
-      tags: ['스마트폰', '갤럭시', '삼성', 'S펜', 'AI'],
-      createdAt: '2024-01-20',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '6.8인치',
-      camera: '200MP 쿼드',
-      os: 'Android 14',
-      colors: ['티타늄 그레이', '티타늄 바이올렛', '티타늄 옐로우', '티타늄 블랙'],
-      ram: '12GB',
-      battery: '5000mAh',
-      weight: '232g',
-      waterResistance: 'IP68',
-      wirelessCharging: true,
-      faceId: false,
-      fingerprint: true,
-      supports5G: true,
-      performanceScore: 950000,
-      batteryLife: 28
-    },    {
-      id: 3,
-      name: 'Samsung Galaxy Z Fold6',
-      price: 2390000,
-      salePrice: 2190000,
-      image: '/images/products/samsung/galaxy-z-fold6.jpg',
-      images: [
-        '/images/products/samsung/galaxy-z-fold6.jpg',
-        '/images/products/samsung/galaxy-z-fold6-2.jpg',
-        '/images/products/samsung/galaxy-z-fold6-3.jpg'
-      ],
-      category: 'samsung',
-      subcategory: 'galaxy-z-fold6',
-      brand: 'Samsung',
-      rating: 4.8,
-      reviewCount: 752,
-      description: '완전히 새로워진 폴더블 스마트폰. 더 얇고 가벼워진 디자인과 향상된 메인 디스플레이',
-      features: ['Snapdragon 8 Gen 4', '폴더블 디스플레이', 'S펜 호환', '진화한 Galaxy AI', '트리플 카메라'],
-      specifications: {
-        화면: '7.8인치 메인 + 6.5인치 커버 디스플레이',
-        칩셋: 'Snapdragon 8 Gen 4',
-        저장용량: '256GB, 512GB, 1TB',
-        카메라: '108MP 메인 + 12MP 망원 + 12MP 초광각',
-        배터리: '4900mAh',
-        운영체제: 'Android 15 (One UI 7.0)',
-        색상: '팬텀 블랙, 크림, 네이비, 라벤더'
-      },      inStock: true,
-      stockCount: 42,
-      tags: ['스마트폰', '갤럭시', '폴더블', '삼성', 'AI'],
-      createdAt: '2025-04-01',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '7.8인치+6.5인치',
-      camera: '108MP 트리플',
-      os: 'Android 15',
-      colors: ['팬텀 블랙', '크림', '네이비', '라벤더'],
-      ram: '16GB',
-      battery: '4900mAh',
-      weight: '235g',
-      waterResistance: 'IPX8',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: true,
-      supports5G: true,
-      performanceScore: 1050000,
-      batteryLife: 26
-    },
-    {
-      id: 4,
-      name: 'Samsung Galaxy Z Flip6',
-      price: 1490000,
-      salePrice: 1390000,
-      image: '/images/products/samsung/galaxy-z-flip6.jpg',
-      images: [
-        '/images/products/samsung/galaxy-z-flip6.jpg',
-        '/images/products/samsung/galaxy-z-flip6-2.jpg',
-        '/images/products/samsung/galaxy-z-flip6-3.jpg'
-      ],
-      category: 'samsung',
-      subcategory: 'galaxy-z-flip6',
-      brand: 'Samsung',
-      rating: 4.7,
-      reviewCount: 837,
-      description: '완전히 새로워진 플립형 폴더블 스마트폰. 더 큰 커버 디스플레이와 향상된 카메라 시스템',
-      features: ['Snapdragon 8 Gen 4', '3.6인치 커버 디스플레이', '향상된 카메라', 'Galaxy AI', 'FlexCam'],
-      specifications: {
-        화면: '6.8인치 메인 + 3.6인치 커버 디스플레이',
-        칩셋: 'Snapdragon 8 Gen 4',
-        저장용량: '256GB, 512GB',
-        카메라: '50MP 메인 + 12MP 초광각',
-        배터리: '4300mAh',
-        운영체제: 'Android 15 (One UI 7.0)',
-        색상: '그라파이트, 크림, 라일락, 민트'
-      },
-      inStock: true,
-      stockCount: 18,
-      tags: ['스마트폰', '샤오미', 'Leica', '카메라'],      inStock: true,
-      stockCount: 35,
-      tags: ['스마트폰', '갤럭시', '삼성', '플립', '폴더블', 'AI'],
-      createdAt: '2025-04-10',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '6.8인치+3.6인치',
-      camera: '50MP 듀얼',
-      os: 'Android 15',
-      colors: ['그라파이트', '크림', '라일락', '민트'],
-      ram: '12GB',
-      battery: '4300mAh',
-      weight: '187g',
-      waterResistance: 'IPX8',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: true,
-      supports5G: true,
-      performanceScore: 980000,
-      batteryLife: 22
-    },
-    {
-      id: 5,
-      name: 'iPhone 16',
-      price: 1290000,
-      salePrice: 1190000,
-      image: '/images/products/apple/iphone16.jpg',
-      images: [
-        '/images/products/apple/iphone16.jpg',
-        '/images/products/apple/iphone16-2.jpg',
-        '/images/products/apple/iphone16-3.jpg'
-      ],
-      category: 'iphone',
-      subcategory: 'iphone-16',
-      brand: 'Apple',
-      rating: 4.8,
-      reviewCount: 954,
-      description: 'A18 칩과 향상된 카메라 시스템, 그리고 새로운 기능을 갖춘 스마트폰',
-      features: ['A18 칩', '48MP 메인 카메라', '카메라 제어 버튼', '15시간 동영상 재생', 'iOS 18'],
-      specifications: {
-        화면: '6.1인치 Super Retina XDR',
-        칩셋: 'A18',
-        저장용량: '128GB, 256GB, 512GB',
-        카메라: '48MP 메인 + 12MP 초광각',
-        배터리: '최대 20시간 비디오 재생',
-        운영체제: 'iOS 18',
-        색상: '블루, 퍼플, 미드나이트, 스타라이트, 프로덕트 레드'
-      },
-      inStock: true,
-      stockCount: 27,
-      tags: ['스마트폰', '원플러스', 'Hasselblad', '플래그십'],      inStock: true,
-      stockCount: 45,
-      tags: ['스마트폰', '아이폰', '애플', 'A18'],
-      createdAt: '2025-05-01',
-      // 스마트폰 특화 필드
-      storage: '128GB',
-      screenSize: '6.1인치',
-      camera: '48MP 듀얼',
-      os: 'iOS 18',
-      colors: ['블루', '퍼플', '미드나이트', '스타라이트', '프로덕트 레드'],
-      ram: '8GB',
-      battery: '3500mAh',
-      weight: '168g',
-      waterResistance: 'IP68',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: false,
-      supports5G: true,
-      performanceScore: 940000,
-      batteryLife: 20
-    },
-    {
-      id: 6,
-      name: 'iPhone 16 Pro',
-      price: 1590000,
-      salePrice: 1490000,
-      image: '/images/products/apple/iphone16-pro.jpg',
-      images: [
-        '/images/products/apple/iphone16-pro.jpg',
-        '/images/products/apple/iphone16-pro-2.jpg',
-        '/images/products/apple/iphone16-pro-3.jpg'
-      ],
-      category: 'iphone',
-      subcategory: 'iphone-16',
-      brand: 'Apple',
-      rating: 4.9,
-      reviewCount: 1205,
-      description: 'A18 Pro 칩과 혁신적인 카메라 제어 버튼, 티타늄 디자인으로 더욱 강력해진 Pro 모델',
-      features: ['A18 Pro 칩', '티타늄 디자인', '48MP 트리플 카메라', '새로운 카메라 제어 버튼', 'Face ID'],
-      specifications: {
-        화면: '6.3인치 Super Retina XDR ProMotion',
-        칩셋: 'A18 Pro',
-        저장용량: '256GB, 512GB, 1TB',
-        카메라: '48MP 메인 + 48MP 울트라 와이드 + 12MP 망원',
-        배터리: '최대 25시간 비디오 재생',
-        운영체제: 'iOS 18',
-        색상: '티타늄 내추럴, 티타늄 화이트, 티타늄 블랙, 티타늄 블루'
-      },
-      inStock: true,
-      stockCount: 42,
-      tags: ['스마트폰', '아이폰', '애플', '스탠다드'],      inStock: true,
-      stockCount: 38,
-      tags: ['스마트폰', '아이폰', '애플', '프로', 'A18 Pro'],
-      createdAt: '2025-05-10',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '6.3인치',
-      camera: '48MP 트리플',
-      os: 'iOS 18',
-      colors: ['티타늄 내추럴', '티타늄 화이트', '티타늄 블랙', '티타늄 블루'],
-      ram: '8GB',
-      battery: '3650mAh',
-      weight: '187g',
-      waterResistance: 'IP68',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: false,
-      supports5G: true,
-      performanceScore: 1080000,
-      batteryLife: 25
-    },
-    {
-      id: 7,
-      name: 'Samsung Galaxy S25',
-      price: 1390000,
-      salePrice: 1290000,
-      image: '/images/products/samsung/galaxy-s25.jpg',
-      images: [
-        '/images/products/samsung/galaxy-s25.jpg',
-        '/images/products/samsung/galaxy-s25-2.jpg',
-        '/images/products/samsung/galaxy-s25-3.jpg'
-      ],
-      category: 'samsung',
-      subcategory: 'galaxy-s25',
-      brand: 'Samsung',
-      rating: 4.8,
-      reviewCount: 923,
-      description: '더 진화한 Galaxy AI와 슬림한 디자인, 향상된 카메라를 갖춘 삼성의 플래그십 스마트폰',
-      features: ['Snapdragon 8 Gen 4', '50MP 고해상도 카메라', '향상된 Galaxy AI', '더 큰 배터리', '슬림한 디자인'],
-      specifications: {
-        화면: '6.2인치 Dynamic AMOLED 2X',
-        칩셋: 'Snapdragon 8 Gen 4',
-        저장용량: '128GB, 256GB, 512GB',
-        카메라: '50MP 메인 + 12MP 망원 + 12MP 초광각',
-        배터리: '4500mAh',
-        운영체제: 'Android 15 (One UI 7.0)',
-        색상: '팬텀 블랙, 블루, 바이올렛, 화이트'
-      },
-      inStock: true,
-      stockCount: 19,
-      tags: ['스마트폰', '갤럭시', '삼성', '폴더블', 'Z플립'],
-      createdAt: '2024-02-15',
-      // 스마트폰 특화 필드
-      storage: '256GB',
-      screenSize: '6.7인치',
-      camera: '12MP 듀얼',
-      os: 'Android 13',
-      colors: ['민트', '크림', '라벤더', '그래파이트'],
-      ram: '8GB',
-      battery: '3700mAh',
-      weight: '187g',
-      waterResistance: 'IPX8',
-      wirelessCharging: true,
-      faceId: false,
-      fingerprint: true,
-      supports5G: true,
-      performanceScore: 780000,
-      batteryLife: 18
-    },
-    {
-      id: 8,
-      name: 'Google Pixel 8',
-      price: 990000,
-      salePrice: 890000,
-      image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=400&fit=crop',
-        'https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?w=400&h=400&fit=crop'
-      ],
-      category: 'google',
-      subcategory: 'smartphones',
-      brand: 'Google',
-      rating: 4.6,
-      reviewCount: 534,
-      description: 'Google AI 기능이 가득한 합리적인 픽셀 스마트폰',
-      features: ['Tensor G3', 'Magic Eraser', 'Real Tone', 'Call Screen', '7년 업데이트'],
-      specifications: {
-        화면: '6.2인치 OLED',
-        칩셋: 'Google Tensor G3',
-        저장용량: '128GB, 256GB',
-        카메라: '50MP 메인 + 12MP 초광각',
-        배터리: '4575mAh',
-        운영체제: 'Android 14',
-        색상: '하젤, 로즈, 오브시디언'
-      },
-      inStock: true,
-      stockCount: 35,
-      tags: ['스마트폰', '픽셀', '구글', 'AI', '컴팩트'],
-      createdAt: '2024-02-20',
-      // 스마트폰 특화 필드
-      storage: '128GB',
-      screenSize: '6.2인치',
-      camera: '50MP 듀얼',
-      os: 'Android 14',
-      colors: ['하젤', '로즈', '오브시디언'],
-      ram: '8GB',
-      battery: '4575mAh',
-      weight: '187g',
-      waterResistance: 'IP68',
-      wirelessCharging: true,
-      faceId: true,
-      fingerprint: true,
-      supports5G: true,
-      performanceScore: 750000,
-      batteryLife: 22
-    }
-  ];
-
-  // 필터링 로직
-  let filteredProducts = [...mockProducts];
-  
-  if (params.category) {
-    filteredProducts = filteredProducts.filter(p => p.category === params.category);
-  }
-  
-  if (params.search) {
-    const searchTerm = params.search.toLowerCase();
-    filteredProducts = filteredProducts.filter(p => 
-      p.name.toLowerCase().includes(searchTerm) ||
-      p.description.toLowerCase().includes(searchTerm) ||
-      p.brand.toLowerCase().includes(searchTerm)
-    );
-  }
-
-  // 가격 필터
-  if (params.minPrice) {
-    filteredProducts = filteredProducts.filter(p => p.salePrice >= parseInt(params.minPrice));
-  }
-  
-  if (params.maxPrice) {
-    filteredProducts = filteredProducts.filter(p => p.salePrice <= parseInt(params.maxPrice));
-  }
-
-  // 브랜드 필터
-  if (params.brand) {
-    filteredProducts = filteredProducts.filter(p => p.brand.toLowerCase() === params.brand.toLowerCase());
-  }
-
-  // 저장용량 필터
-  if (params.storage) {
-    filteredProducts = filteredProducts.filter(p => p.storage.includes(params.storage));
-  }
-
-  // 화면크기 필터
-  if (params.screenSize) {
-    filteredProducts = filteredProducts.filter(p => p.screenSize.includes(params.screenSize));
-  }
-
-  // 페이지네이션
-  const page = parseInt(params.page) || 1;
-  const limit = parseInt(params.limit) || 12;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-
-  return {
-    success: true,
-    data: {
-      products: filteredProducts.slice(startIndex, endIndex),
-      pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(filteredProducts.length / limit),
-        totalItems: filteredProducts.length,
-        itemsPerPage: limit
-      }
-    }
-  };
-};
-
-const getMockProduct = async (productId) => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const mockProducts = await getMockProducts({});
-  const product = mockProducts.data.products.find(p => p.id === parseInt(productId));
-  
-  if (!product) {
-    return {
-      success: false,
-      error: '상품을 찾을 수 없습니다.'
-    };
-  }
-
-  return {
-    success: true,
-    data: product
-  };
-};
-
-const getMockFeaturedProducts = async (limit) => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const mockProducts = await getMockProducts({});
-  const featuredProducts = mockProducts.data.products
-    .filter(p => p.rating >= 4.5)
-    .slice(0, limit);
-
-  return {
-    success: true,
-    data: featuredProducts
-  };
-};
-
-const getMockProductReviews = async (productId, params) => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const mockReviews = [
-    {
-      id: 1,
-      productId: parseInt(productId),
-      userId: 1,
-      userName: '김스마트',
-      userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
-      rating: 5,
-      title: '정말 만족스러운 스마트폰!',
-      content: '카메라 성능이 정말 뛰어나고 배터리도 오래 갑니다. 추천해요!',
-      pros: ['뛰어난 카메라', '긴 배터리 수명', '빠른 성능'],
-      cons: ['가격이 조금 비쌈'],
-      helpful: 15,
-      createdAt: '2024-01-15',
-      verified: true
-    },
-    {
-      id: 2,
-      productId: parseInt(productId),
-      userId: 2,
-      userName: '박테크',
-      userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face',
-      rating: 4,
-      title: '전반적으로 좋지만...',
-      content: '성능은 정말 좋은데 크기가 좀 큰 것 같아요.',
-      pros: ['빠른 성능', '좋은 디스플레이'],
-      cons: ['큰 크기', '무거운 무게'],
-      helpful: 8,
-      createdAt: '2024-01-20',
-      verified: true
-    },
-    {
-      id: 3,
-      productId: parseInt(productId),
-      userId: 3,
-      userName: '이유저',
-      userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
-      rating: 5,
-      title: '최고의 스마트폰 경험',
-      content: '이전에 사용하던 폰과 비교해보니 모든 면에서 업그레이드되었어요. 특히 카메라는 정말 놀라웠습니다.',
-      pros: ['카메라 품질', '빠른 충전', '프리미엄 디자인', '5G 연결'],
-      cons: ['높은 가격'],
-      helpful: 22,
-      createdAt: '2024-02-01',
-      verified: true
-    }
-  ];
-
-  const page = parseInt(params.page) || 1;
-  const limit = parseInt(params.limit) || 10;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-
-  return {
-    success: true,
-    data: {
-      reviews: mockReviews.slice(startIndex, endIndex),
-      pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(mockReviews.length / limit),
-        totalItems: mockReviews.length,
-        itemsPerPage: limit
-      },
-      summary: {
-        averageRating: 4.7,
-        totalReviews: mockReviews.length,
-        ratingDistribution: {
-          5: 65,
-          4: 25,
-          3: 7,
-          2: 2,
-          1: 1
-        }
-      }
-    }
-  };
-};
-
-const getMockRelatedProducts = async (productId, limit) => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const mockProducts = await getMockProducts({});
-  const currentProduct = mockProducts.data.products.find(p => p.id === parseInt(productId));
-  
-  if (!currentProduct) {
-    return {
-      success: false,
-      error: '상품을 찾을 수 없습니다.'
-    };
-  }
-
-  const relatedProducts = mockProducts.data.products
-    .filter(p => p.id !== parseInt(productId) && (p.category === currentProduct.category || p.brand === currentProduct.brand))
-    .slice(0, limit);
-
-  return {
-    success: true,
-    data: relatedProducts
-  };
-};
-
-const getMockCategories = async () => {
-  await new Promise(resolve => setTimeout(resolve, 200));
-  
-  return {
-    success: true,
-    data: [
-      {
-        id: 'iphone',
-        name: 'iPhone',
-        icon: '📱',
-        count: 12
-      },
-      {
-        id: 'samsung',
-        name: 'Samsung Galaxy',
-        icon: '📱',
-        count: 8
-      },
-      {
-        id: 'google',
-        name: 'Google Pixel',
-        icon: '📱',
-        count: 6
-      },
-      {
-        id: 'xiaomi',
-        name: 'Xiaomi',
-        icon: '📱',
-        count: 5
-      },
-      {
-        id: 'oneplus',
-        name: 'OnePlus',
-        icon: '📱',
-        count: 4
-      },
-      {
-        id: 'accessories',
-        name: '액세서리',
-        icon: '🔌',
-        count: 15
-      }
-    ]
-  };
 };
 
 export default productService;
