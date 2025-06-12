@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
-import './Sidebar.jsx';
+import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [expandedCategories, setExpandedCategories] = useState({});
