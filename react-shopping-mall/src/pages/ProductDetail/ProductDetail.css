@@ -8,6 +8,13 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem; /* 원래대로 수정 */
+  position: relative;
+}
+
+.container::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* 브레드크럼 */
@@ -65,6 +72,8 @@
   padding: 3rem;
   box-shadow: var(--box-shadow);
   align-items: stretch;
+  position: relative;
+  overflow: visible;
 }
 
 /* 상품 이미지 */
@@ -167,6 +176,8 @@
   flex-direction: column;
   gap: 1.5rem;
   padding-right: 1rem;
+  position: relative;
+  width: 100%;
 }
 
 .product-header {
@@ -175,10 +186,15 @@
   align-items: flex-start;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--gray-200);
+  position: relative;
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 .product-title {
   flex: 1;
+  margin-right: 1rem;
+  min-width: 0;  /* 버튼 침범 방지 */
 }
 
 .product-brand {
@@ -193,14 +209,17 @@
 .product-name {
   margin: 0;
   color: var(--dark-color);
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 1.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .product-actions-header {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  align-items: center;
+  margin-left: auto;
 }
 
 .wishlist-btn,
@@ -311,6 +330,12 @@
   margin: 0;
   padding: 1rem 0;
   border-bottom: 1px solid var(--gray-200);
+  position: relative;
+  width: 100%;
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
 }
 
 .product-variants h4 {
@@ -318,96 +343,58 @@
   color: var(--dark-color);
   font-weight: 600;
   font-size: 1.2rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .variants-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+  position: relative;
+  width: 100%;
+  align-items: stretch;
+  z-index: 2;
 }
 
 .variant-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  position: relative;
+  width: 100%;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--gray-100);
+  z-index: 3;
+}
+
+.variant-group:last-child {
+  border-bottom: none;
 }
 
 .variant-label {
   font-size: 1rem;
   font-weight: 600;
   color: var(--dark-color);
-}
-
-/* 저장용량 선택 */
-.variants-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
-}
-
-.variant-option {
+  margin-bottom: 0.5rem;
+  display: block;
   position: relative;
-  padding: 1rem;
-  border: 2px solid var(--gray-300);
-  border-radius: var(--border-radius);
-  background-color: var(--white);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-}
-
-.variant-option:hover:not(.disabled) {
-  border-color: var(--primary-color);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
-}
-
-.variant-option.active {
-  border-color: var(--primary-color);
-  background-color: rgba(0, 123, 255, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
-}
-
-.variant-option.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: var(--gray-100);
-}
-
-.variant-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.variant-name {
-  font-weight: 600;
-  color: var(--dark-color);
-  font-size: 0.95rem;
-}
-
-.variant-price {
-  font-weight: 500;
-  color: var(--primary-color);
-  font-size: 0.9rem;
-}
-
-.out-of-stock-badge {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: var(--danger-color);
-  color: var(--white);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--border-radius-sm);
+  z-index: 1;
+  width: 100%;
+  text-align: left;
 }
 
 /* 저장용량 선택 */
 .storage-options {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
+  position: relative;
+  width: 100%;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
 }
 
 .storage-option {
@@ -470,9 +457,16 @@
 
 /* 색상 선택 */
 .color-options {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  align-items: start;
   gap: 1rem;
+  position: relative;
+  width: 100%;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  align-items: flex-start;
 }
 
 .color-option {
@@ -487,6 +481,7 @@
   cursor: pointer;
   transition: var(--transition);
   min-width: 80px;
+  position: relative;
 }
 
 .color-option:hover {
@@ -950,11 +945,48 @@
     gap: 2rem;
     padding: 1.5rem;
     margin-bottom: 2rem;
+    position: relative;
+    overflow: visible;
   }
 
   .product-info {
     gap: 1rem;
     padding-right: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .product-variants {
+    position: relative;
+    width: 100%;
+    clear: both;
+  }
+  .variants-container {
+    position: relative;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .variant-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .variant-label {
+    margin-bottom: 0.75rem;
+    display: block;
+    width: 100%;
+  }
+
+  .storage-options {
+    position: relative;
+    width: 100%;
+  }
+
+  .color-options {
+    position: relative;
+    width: 100%;
   }
 
   .variants-grid {
