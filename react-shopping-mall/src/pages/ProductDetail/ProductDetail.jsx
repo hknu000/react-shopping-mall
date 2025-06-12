@@ -527,7 +527,7 @@ const ProductDetail = () => {
                     <div className="compatibility-item">
                       <span className="compatibility-label">얼굴인식</span>
                       <span className="compatibility-value">
-                        {product.faceID ? '✅ 지원' : '❌ 미지원'}
+                        {product.faceId ? '✅ 지원' : '❌ 미지원'}
                       </span>
                     </div>
                     <div className="compatibility-item">
