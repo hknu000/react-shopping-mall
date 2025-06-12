@@ -1,16 +1,16 @@
 /* 글로벌 변수 */
 :root {
-  --primary-color: #007bff;
-  --primary-hover: #0056b3;
-  --primary-dark: #0056b3;
-  --primary-light: #b8daff;
+  --primary-color: #F2B816;
+  --primary-hover: #E5A905;
+  --primary-dark: #D99E04;
+  --primary-light: #FFF3A0;
   --secondary-color: #6c757d;
   --success-color: #28a745;
   --success-light: #d4edda;
   --danger-color: #dc3545;
   --danger-light: #f8d7da;
-  --warning-color: #ffc107;
-  --warning-light: #fff3cd;
+  --warning-color: #F2B816;
+  --warning-light: #FFF3CD;
   --info-color: #17a2b8;
   --info-light: #d1ecf1;
   --light-color: #f8f9fa;

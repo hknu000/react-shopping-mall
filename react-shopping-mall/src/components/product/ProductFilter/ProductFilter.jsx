@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes, FaSearch } from 'react-icons/fa';
-import { PRODUCT_CATEGORIES } from '../../../utils/constants';
 import { formatPrice } from '../../../utils/helpers';
 import './ProductFilter.css';
 
 const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} }) => {  const [filters, setFilters] = useState({
-    category: '',
     brand: '',
     minPrice: '',
     maxPrice: '',
-    storage: '',
-    ram: '',
-    screenSize: '',
-    color: '',
-    os: '',
-    rating: '',
     inStock: false,
     onSale: false,
     search: '',
@@ -24,16 +16,7 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
   const [priceRange, setPriceRange] = useState({
     min: 0,
     max: 3000000
-  });
-  const brands = ['Apple', 'Samsung', 'Xiaomi', 'Google', 'OnePlus', 'Huawei', 'Oppo', 'Vivo'];
-
-  const storageOptions = ['64GB', '128GB', '256GB', '512GB', '1TB'];
-  const ramOptions = ['4GB', '6GB', '8GB', '12GB', '16GB'];
-  const screenSizes = ['5.0-5.5인치', '5.5-6.0인치', '6.0-6.5인치', '6.5-7.0인치', '7.0인치+'];
-  const colors = ['블랙', '화이트', '실버', '골드', '블루', '그린', '퍼플', '레드', '핑크', '기타'];
-  const osOptions = ['iOS', 'Android'];
-
-  const categories = Object.values(PRODUCT_CATEGORIES);
+  });  const brands = ['Apple', 'Samsung'];
 
   useEffect(() => {
     setFilters(prev => ({ ...prev, ...initialFilters }));
@@ -61,19 +44,11 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
     }, {});
 
     onFilterChange(cleanFilters);
-  };
-  const handleResetFilters = () => {
+  };  const handleResetFilters = () => {
     const resetFilters = {
-      category: '',
       brand: '',
       minPrice: '',
       maxPrice: '',
-      storage: '',
-      ram: '',
-      screenSize: '',
-      color: '',
-      os: '',
-      rating: '',
       inStock: false,
       onSale: false,
       search: ''
@@ -93,9 +68,8 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
   if (!isOpen) return null;
 
   return (
-    <div className="filter-overlay">      <div className="filter-panel">
-        <div className="filter-header">
-          <h3>스마트폰 필터</h3>
+    <div className="filter-overlay">      <div className="filter-panel">        <div className="filter-header">
+          <h3>상품 필터</h3>
           <button className="close-btn" onClick={onClose}>
             <FaTimes />
           </button>
@@ -115,9 +89,7 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
                 className="search-input"
               />
             </div>
-          </div>
-
-          {/* 브랜드 */}
+          </div>          {/* 브랜드 */}
           <div className="filter-section">
             <h4>브랜드</h4>
             <select
@@ -129,108 +101,6 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
               {brands.map(brand => (
                 <option key={brand} value={brand}>
                   {brand}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 카테고리 */}
-          <div className="filter-section">
-            <h4>카테고리</h4>
-            <select
-              value={filters.category}
-              onChange={(e) => handleFilterChange('category', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체 카테고리</option>
-              {categories.map(category => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 저장용량 */}
-          <div className="filter-section">
-            <h4>저장용량</h4>
-            <select
-              value={filters.storage}
-              onChange={(e) => handleFilterChange('storage', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체</option>
-              {storageOptions.map(storage => (
-                <option key={storage} value={storage}>
-                  {storage}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* RAM */}
-          <div className="filter-section">
-            <h4>RAM</h4>
-            <select
-              value={filters.ram}
-              onChange={(e) => handleFilterChange('ram', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체</option>
-              {ramOptions.map(ram => (
-                <option key={ram} value={ram}>
-                  {ram}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 화면 크기 */}
-          <div className="filter-section">
-            <h4>화면 크기</h4>
-            <select
-              value={filters.screenSize}
-              onChange={(e) => handleFilterChange('screenSize', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체</option>
-              {screenSizes.map(size => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 색상 */}
-          <div className="filter-section">
-            <h4>색상</h4>
-            <select
-              value={filters.color}
-              onChange={(e) => handleFilterChange('color', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체 색상</option>
-              {colors.map(color => (
-                <option key={color} value={color}>
-                  {color}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* 운영체제 */}
-          <div className="filter-section">
-            <h4>운영체제</h4>
-            <select
-              value={filters.os}
-              onChange={(e) => handleFilterChange('os', e.target.value)}
-              className="filter-select"
-            >
-              <option value="">전체</option>
-              {osOptions.map(os => (
-                <option key={os} value={os}>
-                  {os}
                 </option>
               ))}
             </select>
@@ -259,7 +129,7 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
                   min="0"
                 />
               </div>
-                <div className="price-range-slider">
+              <div className="price-range-slider">
                 <input
                   type="range"
                   min="0"
@@ -283,40 +153,6 @@ const ProductFilter = ({ isOpen, onClose, onFilterChange, initialFilters = {} })
               <div className="price-range-label">
                 {getPriceRangeLabel(priceRange.min, priceRange.max)}
               </div>
-            </div>
-          </div>
-
-          {/* 평점 */}
-          <div className="filter-section">
-            <h4>평점</h4>
-            <div className="rating-filters">
-              {[4, 3, 2, 1].map(rating => (
-                <label key={rating} className="rating-option">
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={rating}
-                    checked={filters.rating === rating.toString()}
-                    onChange={(e) => handleFilterChange('rating', e.target.value)}
-                  />
-                  <span className="rating-label">
-                    {rating}점 이상
-                    <span className="stars">
-                      {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
-                    </span>
-                  </span>
-                </label>
-              ))}
-              <label className="rating-option">
-                <input
-                  type="radio"
-                  name="rating"
-                  value=""
-                  checked={filters.rating === ''}
-                  onChange={(e) => handleFilterChange('rating', e.target.value)}
-                />
-                <span className="rating-label">전체</span>
-              </label>
             </div>
           </div>          {/* 기타 옵션 */}
           <div className="filter-section">

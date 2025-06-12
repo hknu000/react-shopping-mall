@@ -1,132 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/common/Loading/Loading';
+import { productService } from '../../services/product.service';
 import './Home.css';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);  const [activeTab, setActiveTab] = useState('베스트 상품');
-
   // 탭별 상품 데이터 
   const getTabProducts = () => {
     if (activeTab === 'WEEKLY BEST') {
-      // WEEKLY BEST 탭에서는 다른 상품들 표시
-      return [
-        {
-          id: 9,
-          name: 'Galaxy S25 Ultra',
-          price: 1800000,
-          salePrice: 1550000,
-          image: '/asset/samsung.s25.ultra.black.png',
-          colors: ['black', 'gray', 'silverblue']
-        },
-        {
-          id: 10,
-          name: 'Galaxy S25+',
-          price: 1400000,
-          salePrice: 1200000,
-          image: '/asset/samsung.s25.plus.mint.png',
-          colors: ['iceblue', 'mint', 'navy']
-        },
-        {
-          id: 11,
-          name: 'Galaxy Z Fold6',
-          price: 2200000,
-          salePrice: 1900000,
-          image: '/asset/samsung.zfold6.silver.png',
-          colors: ['navy', 'pink', 'silver']
-        },
-        {
-          id: 12,
-          name: 'Galaxy Z Flip6',
-          price: 1500000,
-          salePrice: 1300000,
-          image: '/asset/samsung.zflip6.yellow.png',
-          colors: ['blue', 'mint', 'silver']
-        },
-        ...featuredProducts.slice(0, 4) // 나머지는 기본 상품으로 채움
-      ];
+      // WEEKLY BEST 탭에서는 삼성 상품들 위주로 표시
+      return featuredProducts.filter(product => 
+        product.category === 'samsung' || product.brand === 'Samsung'
+      ).slice(0, 8);
     }
-    return featuredProducts;
+    // 기본 탭에서는 모든 상품 표시
+    return featuredProducts.slice(0, 8);
   };
-
-  // 추천 상품 데이터 (sample.html과 동일한 8개 상품을 반복)
+  // 추천 상품 데이터를 서비스에서 가져오기
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       setIsLoading(true);
       
       try {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // sample.html과 동일한 상품 데이터
-        const mockProducts = [
-          {
-            id: 1,
-            name: '아이폰 16 프로 맥스',
-            price: 1900000,
-            salePrice: 1600000,
-            image: '/asset/apple.iphone16.promax.black.png',
-            colors: ['black', 'desert', 'natural']
-          },
-          {
-            id: 2,
-            name: '아이폰 16 프로',
-            price: 1550000,
-            salePrice: 1250000,
-            image: '/asset/apple.iphone16.pro.white.png',
-            colors: ['black', 'desert', 'natural']
-          },
-          {
-            id: 3,
-            name: '아이폰 16',
-            price: 1250000,
-            salePrice: 1050000,
-            image: '/asset/apple.iphone16.normal.ultramarine.png',
-            colors: ['black', 'pink', 'teal']
-          },
-          {
-            id: 4,
-            name: '아이폰 16e',
-            price: 990000,
-            salePrice: 790000,
-            image: '/asset/apple.iphone16.e.black.png',
-            colors: ['black']
-          },
-          {
-            id: 5,
-            name: '아이폰 16 프로 맥스',
-            price: 1900000,
-            salePrice: 1600000,
-            image: '/asset/apple.iphone16.promax.desert.png',
-            colors: ['black', 'desert', 'natural']
-          },
-          {
-            id: 6,
-            name: '아이폰 16 프로',
-            price: 1550000,
-            salePrice: 1250000,
-            image: '/asset/apple.iphone16.pro.natural.png',
-            colors: ['black', 'desert', 'natural']
-          },
-          {
-            id: 7,
-            name: '아이폰 16',
-            price: 1250000,
-            salePrice: 1050000,
-            image: '/asset/apple.iphone16.normal.pink.png',
-            colors: ['black', 'pink', 'teal']
-          },
-          {
-            id: 8,
-            name: '아이폰 16e',
-            price: 990000,
-            salePrice: 790000,
-            image: '/asset/apple.iphone16.e.white.png',
-            colors: ['white']
-          }
-        ];
-        
-        setFeaturedProducts(mockProducts);
+        const response = await productService.getFeaturedProducts(8);
+        if (response.success) {
+          setFeaturedProducts(response.data);
+        }
       } catch (error) {
         console.error('상품 로딩 오류:', error);
       } finally {
@@ -135,7 +36,7 @@ const Home = () => {
     };
 
     fetchFeaturedProducts();
-  }, []);  const formatPrice = (price) => {
+  }, []);const formatPrice = (price) => {
     return new Intl.NumberFormat('ko-KR').format(price);
   };
 

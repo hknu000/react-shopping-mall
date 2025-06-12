@@ -69,17 +69,19 @@
 }
 
 .banner-text .btn-shop {
-  background: #23C39A;
+  background: #F2B816;
   padding: 8px 16px;
   border-radius: 4px;
   color: #fff;
   text-decoration: none;
   display: inline-block;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .banner-text .btn-shop:hover {
-  background: #1da085;
+  background: #E5A905;
+  transform: translateY(-2px);
 }
 
 .slider-controls {
@@ -112,7 +114,7 @@
   display: block;
   width: 40%;
   height: 100%;
-  background: #23C39A;
+  background: #F2B816;
 }
 
 /* 카테고리 */
@@ -168,6 +170,12 @@
   cursor: pointer;
   font-weight: 500;
   border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.weekly-best .tabs button:hover {
+  background: #FFD700;
+  color: #333;
 }
 
 .weekly-best .tabs .active {
